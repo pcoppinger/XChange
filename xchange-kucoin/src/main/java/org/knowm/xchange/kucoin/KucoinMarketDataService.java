@@ -1,15 +1,18 @@
 package org.knowm.xchange.kucoin;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+
 import org.knowm.xchange.client.ResilienceRegistries;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.kucoin.dto.response.TickerResponse;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.marketdata.params.Params;
+import org.knowm.xchange.service.marketdata.params.CurrencyPairsParam;
 
 public class KucoinMarketDataService extends KucoinMarketDataServiceRaw
     implements MarketDataService {
@@ -38,6 +41,15 @@ public class KucoinMarketDataService extends KucoinMarketDataServiceRaw
 
   @Override
   public List<Ticker> getTickers(Params params) throws IOException {
+    if (params instanceof CurrencyPairsParam) {
+      Collection pairs = ((CurrencyPairsParam)params).getCurrencyPairs();
+      if (pairs.size() == 1) {
+        Iterator<CurrencyPair> iter = pairs.iterator();
+        CurrencyPair currencyPair = iter.next();
+        TickerResponse ticker = getKucoinTicker(currencyPair);
+        return Arrays.asList(KucoinAdapters.adaptTicker(currencyPair, ticker));
+      }
+    }
     return KucoinAdapters.adaptAllTickers(getKucoinTickers());
   }
 
