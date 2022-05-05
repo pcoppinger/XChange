@@ -1,10 +1,7 @@
 package org.knowm.xchange.kucoin;
 
 import static java.util.stream.Collectors.toCollection;
-import static org.knowm.xchange.dto.Order.OrderStatus.CANCELED;
-import static org.knowm.xchange.dto.Order.OrderStatus.NEW;
-import static org.knowm.xchange.dto.Order.OrderStatus.PARTIALLY_FILLED;
-import static org.knowm.xchange.dto.Order.OrderStatus.UNKNOWN;
+import static org.knowm.xchange.dto.Order.OrderStatus.*;
 import static org.knowm.xchange.dto.Order.OrderType.ASK;
 import static org.knowm.xchange.dto.Order.OrderType.BID;
 import static org.knowm.xchange.kucoin.dto.KucoinOrderFlags.HIDDEN;
@@ -51,21 +48,9 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.kucoin.KucoinTradeService.KucoinOrderFlags;
+import org.knowm.xchange.kucoin.dto.KucoinOrderFlags;
 import org.knowm.xchange.kucoin.dto.request.OrderCreateApiRequest;
-import org.knowm.xchange.kucoin.dto.response.AccountBalancesResponse;
-import org.knowm.xchange.kucoin.dto.response.AllTickersResponse;
-import org.knowm.xchange.kucoin.dto.response.CurrenciesResponse;
-import org.knowm.xchange.kucoin.dto.response.DepositResponse;
-import org.knowm.xchange.kucoin.dto.response.HistOrdersResponse;
-import org.knowm.xchange.kucoin.dto.response.OrderBookResponse;
-import org.knowm.xchange.kucoin.dto.response.OrderResponse;
-import org.knowm.xchange.kucoin.dto.response.SymbolResponse;
-import org.knowm.xchange.kucoin.dto.response.SymbolTickResponse;
-import org.knowm.xchange.kucoin.dto.response.TradeFeeResponse;
-import org.knowm.xchange.kucoin.dto.response.TradeHistoryResponse;
-import org.knowm.xchange.kucoin.dto.response.TradeResponse;
-import org.knowm.xchange.kucoin.dto.response.WithdrawalResponse;
+import org.knowm.xchange.kucoin.dto.response.*;
 
 public class KucoinAdapters {
 
@@ -97,6 +82,17 @@ public class KucoinAdapters {
         .timestamp(new Date(stats.getTime()));
   }
 
+  public static Ticker adaptTicker(CurrencyPair pair, TickerResponse stats) {
+    return new Ticker.Builder()
+            .instrument(pair)
+            .bid(stats.getBestBid())
+            .ask(stats.getBestAsk())
+            .last(stats.getPrice())
+            .volume(stats.getSize())
+            .timestamp(new Date(stats.getTime()))
+            .build();
+  }
+
   public static List<Ticker> adaptAllTickers(AllTickersResponse allTickersResponse) {
     return Arrays.stream(allTickersResponse.getTicker())
         .map(
@@ -110,6 +106,7 @@ public class KucoinAdapters {
                     .low(ticker.getLow())
                     .volume(ticker.getVol())
                     .quoteVolume(ticker.getVolValue())
+                    .timestamp(new Date(allTickersResponse.getTime()))
                     .percentageChange(
                         ticker.getChangeRate().multiply(new BigDecimal("100"), new MathContext(8)))
                     .build())
@@ -283,15 +280,23 @@ public class KucoinAdapters {
 
     OrderStatus status;
     if (order.isCancelExist()) {
-      status = CANCELED;
+      if (order.getDealSize().signum() == 0) {
+        status = CANCELED;
+      } else {
+        status = PARTIALLY_CANCELED;
+      }
     } else if (order.isActive()) {
       if (order.getDealSize().signum() == 0) {
         status = NEW;
       } else {
         status = PARTIALLY_FILLED;
       }
+    } else if (order.getDealSize().equals(order.getSize())) {
+      status = FILLED;
+    } else if (order.getDealSize().equals(BigDecimal.ZERO)) {
+      status = CANCELED;
     } else {
-      status = UNKNOWN;
+      status = PARTIALLY_CANCELED;
     }
 
     Order.Builder builder;
@@ -319,7 +324,8 @@ public class KucoinAdapters {
             .orderStatus(status)
             .originalAmount(order.getSize())
             .remainingAmount(order.getSize().subtract(order.getDealSize()))
-            .timestamp(order.getCreatedAt());
+            .timestamp(order.getCreatedAt())
+            .userReference(order.getRemark());
 
     if (StringUtils.isNotEmpty(order.getTimeInForce())) {
       builder.flag(TimeInForce.getTimeInForce(order.getTimeInForce()));
@@ -392,8 +398,16 @@ public class KucoinAdapters {
     boolean hasClientId = false;
     for (IOrderFlags flag : order.getOrderFlags()) {
       if (flag instanceof KucoinOrderFlags) {
-        request.clientOid(((KucoinOrderFlags) flag).getClientId());
-        hasClientId = true;
+        if (flag.equals(POST_ONLY)) {
+          request.postOnly(true);
+        } else if (flag.equals(HIDDEN)) {
+          request.hidden(true);
+        } else if (flag.equals(ICEBERG)) {
+          request.iceberg(true);
+        } else {
+          request.clientOid(((KucoinOrderFlags) flag).getClientId());
+          hasClientId = true;
+        }
       } else if (flag instanceof TimeInForce) {
         request.timeInForce(((TimeInForce) flag).name());
       }
@@ -404,7 +418,8 @@ public class KucoinAdapters {
     return request
         .symbol(adaptCurrencyPair((CurrencyPair) order.getInstrument()))
         .size(order.getOriginalAmount())
-        .side(adaptSide(order.getType()));
+        .side(adaptSide(order.getType()))
+        .remark(order.getUserReference());
   }
 
   private static final class PriceAndSize {
