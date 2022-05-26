@@ -1,0 +1,21 @@
+{
+  "currency_pairs" : {
+    "XBT/USDT": null
+  },
+  "currencies" : {},
+  "share_rate_limits" : false,
+  "public_rate_limits": [
+    {
+      "calls": 30,
+      "time_span": 10,
+      "time_unit": "SECONDS"
+    }
+  ],
+  "private_rate_limits": [
+    {
+      "calls": 50,
+      "time_span": 10,
+      "time_unit": "SECONDS"
+    }
+  ]
+}
