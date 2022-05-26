@@ -146,6 +146,8 @@ public class MarketOrder extends Order {
           .originalAmount(order.getOriginalAmount())
           .cumulativeAmount(order.getCumulativeAmount())
           .timestamp(order.getTimestamp())
+          .updatedAt(order.getUpdatedAt())
+          .endAt(order.getEndAt())
           .id(order.getId())
           .flags(order.getOrderFlags())
           .averagePrice(order.getAveragePrice())
@@ -222,6 +224,18 @@ public class MarketOrder extends Order {
     }
 
     @Override
+    public Builder updatedAt(Date updatedAt) {
+
+      return (Builder) super.updatedAt(updatedAt);
+    }
+
+    @Override
+    public Builder endAt(Date endAt) {
+
+      return (Builder) super.endAt(endAt);
+    }
+
+    @Override
     public Builder flags(Set<IOrderFlags> flags) {
 
       return (Builder) super.flags(flags);
@@ -250,6 +264,8 @@ public class MarketOrder extends Order {
               userReference);
       order.setOrderFlags(flags);
       order.setLeverage(leverage);
+      order.setUpdatedAt(updatedAt);
+      order.setEndAt(endAt);
       return order;
     }
   }

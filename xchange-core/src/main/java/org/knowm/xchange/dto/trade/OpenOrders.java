@@ -18,7 +18,7 @@ public final class OpenOrders implements Serializable {
 
   private static final long serialVersionUID = 6641558609478576563L;
 
-  private final List<LimitOrder> openOrders;
+  private final List<Order> openOrders;
   private final List<? extends Order> hiddenOrders;
 
   /**
@@ -26,7 +26,7 @@ public final class OpenOrders implements Serializable {
    *
    * @param openOrders The list of open orders
    */
-  public OpenOrders(List<LimitOrder> openOrders) {
+  public OpenOrders(List<Order> openOrders) {
     this.openOrders = openOrders;
     this.hiddenOrders = Collections.emptyList();
   }
@@ -39,14 +39,14 @@ public final class OpenOrders implements Serializable {
    */
   @JsonCreator
   public OpenOrders(
-      @JsonProperty("openOrders") List<LimitOrder> openOrders,
+      @JsonProperty("openOrders") List<Order> openOrders,
       @JsonProperty("hiddenOrders") List<Order> hiddenOrders) {
     this.openOrders = openOrders;
     this.hiddenOrders = hiddenOrders;
   }
 
   /** @return LimitOrders which are shown on the order book. */
-  public List<LimitOrder> getOpenOrders() {
+  public List<Order> getOpenOrders() {
     return openOrders;
   }
 

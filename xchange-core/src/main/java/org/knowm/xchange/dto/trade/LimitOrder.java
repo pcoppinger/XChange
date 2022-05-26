@@ -242,6 +242,8 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
               .originalAmount(order.getOriginalAmount())
               .cumulativeAmount(order.getCumulativeAmount())
               .timestamp(order.getTimestamp())
+              .updatedAt(order.getUpdatedAt())
+              .endAt(order.getEndAt())
               .id(order.getId())
               .flags(order.getOrderFlags())
               .orderStatus(order.getStatus())
@@ -311,6 +313,18 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
     }
 
     @Override
+    public Builder updatedAt(Date updatedAt) {
+
+      return (Builder) super.updatedAt(updatedAt);
+    }
+
+    @Override
+    public Builder endAt(Date endAt) {
+
+      return (Builder) super.endAt(endAt);
+    }
+
+    @Override
     public Builder orderStatus(Order.OrderStatus status) {
 
       return (Builder) super.orderStatus(status);
@@ -365,6 +379,8 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
               userReference);
       order.setOrderFlags(flags);
       order.setLeverage(leverage);
+      order.setUpdatedAt(updatedAt);
+      order.setEndAt(endAt);
       return order;
     }
   }

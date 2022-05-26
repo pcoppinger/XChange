@@ -38,8 +38,11 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
    */
   protected BigDecimal limitPrice = null;
 
-  /** Some exchanges requires to define the goal of stop order */
+  /** Some exchanges require to define the goal of stop order */
   protected Intention intention = null;
+
+  /** Flag to indicate if the order reached the stop price */
+  protected Boolean stopTriggered = null;
 
   /**
    * @param type Either BID (buying) or ASK (selling)
@@ -280,6 +283,15 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
     return intention;
   }
 
+  /** @return The trigger status */
+  public Boolean getStopTriggered() {
+    return stopTriggered;
+  }
+
+  public void setStopTriggered(Boolean stopTriggered) {
+    this.stopTriggered = stopTriggered;
+  }
+
   @Override
   public String toString() {
 
@@ -289,6 +301,8 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
         + limitPrice
         + ", intention="
         + intention
+        + ", stopTriggered="
+        + stopTriggered
         + ", "
         + super.toString()
         + "]";
@@ -329,6 +343,9 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
     if (!Objects.equals(intention, stopOrder.intention)) {
       return false;
     }
+    if (!Objects.equals(stopTriggered, stopOrder.stopTriggered)) {
+      return false;
+    }
     return true;
   }
 
@@ -337,6 +354,7 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
     int result = super.hashCode();
     result = 31 * result + stopPrice.hashCode();
     result = 31 * result + (limitPrice != null ? limitPrice.hashCode() : 0);
+    result = 31 * result + (stopTriggered != null ? stopTriggered.hashCode() : 0);
     result = 31 * result + (intention != null ? intention.hashCode() : 0);
     return result;
   }
@@ -349,6 +367,8 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
     protected BigDecimal limitPrice;
 
     protected Intention intention;
+
+    protected Boolean stopTriggered;
 
     @JsonCreator
     public Builder(
@@ -365,6 +385,8 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
               .originalAmount(order.getOriginalAmount())
               .cumulativeAmount(order.getCumulativeAmount())
               .timestamp(order.getTimestamp())
+              .updatedAt(order.getUpdatedAt())
+              .endAt(order.getEndAt())
               .id(order.getId())
               .flags(order.getOrderFlags())
               .orderStatus(order.getStatus())
@@ -376,6 +398,7 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
         builder.stopPrice(stopOrder.getStopPrice());
         builder.limitPrice(stopOrder.getLimitPrice());
         builder.intention(stopOrder.getIntention());
+        builder.stopTriggered(stopOrder.getStopTriggered());
       }
       return builder;
     }
@@ -442,6 +465,18 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
     }
 
     @Override
+    public Builder updatedAt(Date updatedAt) {
+
+      return (Builder) super.updatedAt(updatedAt);
+    }
+
+    @Override
+    public Builder endAt(Date endAt) {
+
+      return (Builder) super.endAt(endAt);
+    }
+
+    @Override
     public Builder orderStatus(OrderStatus status) {
 
       return (Builder) super.orderStatus(status);
@@ -483,6 +518,12 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
       return this;
     }
 
+    public Builder stopTriggered(Boolean stopTriggered) {
+
+      this.stopTriggered = stopTriggered;
+      return this;
+    }
+
     @Override
     public StopOrder build() {
 
@@ -506,6 +547,9 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
 
       order.setOrderFlags(flags);
       order.setLeverage(leverage);
+      order.setStopTriggered(stopTriggered);
+      order.setUpdatedAt(updatedAt);
+      order.setEndAt(endAt);
       return order;
     }
   }

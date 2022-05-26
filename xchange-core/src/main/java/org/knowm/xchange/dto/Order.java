@@ -52,6 +52,10 @@ public abstract class Order implements Serializable {
   private BigDecimal fee;
   /** The leverage to use for margin related to this order */
   private String leverage = null;
+  /** The timestamp of the most recent change according to the exchange's server, null if not provided */
+  private Date updatedAt = null;
+  /** The timestamp of the final state according to the exchange's server, null if not provided */
+  private Date endAt = null;
 
   /**
    * @param type Either BID (buying) or ASK (selling)
@@ -263,6 +267,16 @@ public abstract class Order implements Serializable {
     return timestamp;
   }
 
+  public Date getUpdatedAt() {
+
+    return updatedAt;
+  }
+
+  public Date getEndAt() {
+
+    return endAt;
+  }
+
   public Set<IOrderFlags> getOrderFlags() {
 
     return orderFlags;
@@ -299,6 +313,14 @@ public abstract class Order implements Serializable {
     this.leverage = leverage;
   }
 
+  public void setUpdatedAt(Date updatedAt) {
+    this.updatedAt = updatedAt;
+  }
+
+  public void setEndAt(Date endAt) {
+    this.endAt = endAt;
+  }
+
   @Override
   public String toString() {
 
@@ -318,6 +340,10 @@ public abstract class Order implements Serializable {
         + id
         + ", timestamp="
         + timestamp
+        + ", updatedAt="
+        + updatedAt
+        + ", endAt="
+        + endAt
         + ", status="
         + status
         + ", flags="
@@ -486,6 +512,8 @@ public abstract class Order implements Serializable {
     protected String id;
     protected String userReference;
     protected Date timestamp;
+    protected Date updatedAt;
+    protected Date endAt;
     protected BigDecimal averagePrice;
     protected OrderStatus status;
     protected BigDecimal fee;
@@ -568,6 +596,18 @@ public abstract class Order implements Serializable {
     public Builder timestamp(Date timestamp) {
 
       this.timestamp = timestamp;
+      return this;
+    }
+
+    public Builder updatedAt(Date updatedAt) {
+
+      this.updatedAt = updatedAt;
+      return this;
+    }
+
+    public Builder endAt(Date endAt) {
+
+      this.endAt = endAt;
       return this;
     }
 

@@ -19,7 +19,7 @@ public class OpenOrdersTest {
         new LimitOrder.Builder(OrderType.ASK, CurrencyPair.ADA_BNB).id("FOO").build();
     StopOrder stopOrder =
         new StopOrder.Builder(OrderType.ASK, CurrencyPair.ADA_BNB).id("BAR").build();
-    List<LimitOrder> visibleOrders = new ArrayList<>();
+    List<Order> visibleOrders = new ArrayList<>();
     List<Order> hiddenOrders = new ArrayList<>();
     visibleOrders.add(limitOrder);
     hiddenOrders.add(stopOrder);

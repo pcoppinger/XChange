@@ -18,7 +18,7 @@ public class Trade implements Serializable {
 
   private static final long serialVersionUID = -4078893146776655648L;
 
-  /** Did this trade result from the execution of a bid or a ask? */
+  /** Did this trade result from the execution of a bid or an ask? */
   protected final OrderType type;
 
   /** Amount that was traded */
