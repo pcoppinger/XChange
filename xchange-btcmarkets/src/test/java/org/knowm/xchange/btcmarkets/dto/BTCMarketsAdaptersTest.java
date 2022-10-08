@@ -22,6 +22,7 @@ import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 
@@ -64,7 +65,7 @@ public class BTCMarketsAdaptersTest extends BTCMarketsDtoTestSupport {
     assertThat(openOrders.getOpenOrders().get(1).getType()).isEqualTo(Order.OrderType.ASK);
     assertThat(openOrders.getOpenOrders().get(1).getTimestamp().getTime())
         .isEqualTo(1378636912705L);
-    assertThat(openOrders.getOpenOrders().get(1).getLimitPrice()).isEqualTo("130.00000000");
+    assertThat(((LimitOrder) openOrders.getOpenOrders().get(1)).getLimitPrice()).isEqualTo("130.00000000");
     assertThat(openOrders.getOpenOrders().get(1).getOriginalAmount()).isEqualTo("0.10000000");
     assertThat(openOrders.getOpenOrders().get(1).getCumulativeAmount())
         .isEqualTo(BigDecimal.valueOf(0.1));

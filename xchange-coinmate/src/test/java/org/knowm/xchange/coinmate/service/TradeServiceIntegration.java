@@ -54,7 +54,7 @@ public class TradeServiceIntegration {
     OpenOrders orders = service.getOpenOrders(params);
     assertNotNull(orders);
     System.out.println("Got " + orders.getOpenOrders().size() + " orders.");
-    for (LimitOrder order : orders.getOpenOrders()) {
+    for (Order order : orders.getOpenOrders()) {
       System.out.println(order.toString());
     }
   }
@@ -75,7 +75,7 @@ public class TradeServiceIntegration {
     OpenOrders orders = service.getOpenOrders(params);
     assertNotNull(orders);
     System.out.println("Got " + orders.getOpenOrders().size() + " orders.");
-    for (LimitOrder order : orders.getOpenOrders()) {
+    for (Order order : orders.getOpenOrders()) {
       System.out.println(order.toString());
     }
   }

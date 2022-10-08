@@ -19,6 +19,7 @@ import org.knowm.xchange.bleutrade.dto.trade.BleutradeOpenOrder;
 import org.knowm.xchange.bleutrade.dto.trade.BluetradeExecutedTrade;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
@@ -132,7 +133,7 @@ public class BleutradeAdapters {
 
   public static OpenOrders adaptBleutradeOpenOrders(List<BleutradeOpenOrder> bleutradeOpenOrders) {
 
-    List<LimitOrder> openOrders = new ArrayList<>();
+    List<Order> openOrders = new ArrayList<>();
 
     for (BleutradeOpenOrder bleuTradeOpenOrder : bleutradeOpenOrders) {
 

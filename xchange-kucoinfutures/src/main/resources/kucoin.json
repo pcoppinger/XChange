@@ -6,15 +6,15 @@
   "share_rate_limits" : false,
   "public_rate_limits": [
     {
-      "calls": 30,
-      "time_span": 10,
+      "calls": 9,
+      "time_span": 3,
       "time_unit": "SECONDS"
     }
   ],
   "private_rate_limits": [
     {
-      "calls": 50,
-      "time_span": 10,
+      "calls": 30,
+      "time_span": 3,
       "time_unit": "SECONDS"
     }
   ]

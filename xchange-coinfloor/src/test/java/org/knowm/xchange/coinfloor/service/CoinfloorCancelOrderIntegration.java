@@ -38,7 +38,7 @@ public class CoinfloorCancelOrderIntegration {
 
     // cancel one order
     if (openOrders.getOpenOrders().size() > 0) {
-      LimitOrder order = openOrders.getOpenOrders().iterator().next();
+      LimitOrder order = (LimitOrder) openOrders.getOpenOrders().iterator().next();
       boolean success = service.cancelOrder(order.getId());
       logger.info("cancel of order={} success={}", order, success);
     }

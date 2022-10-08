@@ -229,7 +229,7 @@ public class HuobiAdapters {
   }
 
   public static OpenOrders adaptOpenOrders(HuobiOrder[] openOrders) {
-    List<LimitOrder> limitOrders = new ArrayList<>();
+    List<Order> limitOrders = new ArrayList<>();
     for (HuobiOrder openOrder : openOrders) {
       if (openOrder.isLimit()) {
         LimitOrder order = (LimitOrder) adaptOrder(openOrder);
@@ -379,8 +379,8 @@ public class HuobiAdapters {
   public static UserTrades adaptTradeHistory(HuobiOrder[] openOrders) {
     OpenOrders orders = adaptOpenOrders(openOrders);
     List<UserTrade> trades = new ArrayList<>();
-    for (LimitOrder order : orders.getOpenOrders()) {
-      trades.add(adaptTrade(order));
+    for (Order order : orders.getOpenOrders()) {
+      trades.add(adaptTrade((LimitOrder) order));
     }
     return new UserTrades(trades, TradeSortType.SortByTimestamp);
   }

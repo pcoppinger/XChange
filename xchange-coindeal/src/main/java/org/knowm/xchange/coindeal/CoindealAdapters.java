@@ -127,7 +127,7 @@ public final class CoindealAdapters {
 
   public static OpenOrders adaptToOpenOrders(List<CoindealOrder> coindealActiveOrders)
       throws InvalidFormatException {
-    List<LimitOrder> limitOrders = new ArrayList<>();
+    List<Order> limitOrders = new ArrayList<>();
 
     for (CoindealOrder coindealOrder : coindealActiveOrders) {
       limitOrders.add(

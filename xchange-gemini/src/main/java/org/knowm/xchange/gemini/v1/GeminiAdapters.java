@@ -364,7 +364,7 @@ public final class GeminiAdapters {
   public static OpenOrders adaptOrders(
       GeminiOrderStatusResponse[] activeOrders, CurrencyPair currencyPair) {
 
-    List<LimitOrder> limitOrders = new ArrayList<>(activeOrders.length);
+    List<Order> limitOrders = new ArrayList<>(activeOrders.length);
 
     for (GeminiOrderStatusResponse order : activeOrders) {
       CurrencyPair currentCurrencyPair = adaptCurrencyPair(order.getSymbol());

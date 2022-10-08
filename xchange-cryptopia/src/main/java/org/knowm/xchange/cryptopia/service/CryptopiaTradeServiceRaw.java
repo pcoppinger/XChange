@@ -31,7 +31,7 @@ public class CryptopiaTradeServiceRaw extends CryptopiaBaseService {
     return map.get("Type").toString().equals("Buy") ? Order.OrderType.BID : Order.OrderType.ASK;
   }
 
-  public List<LimitOrder> getOpenOrders(CurrencyPair currencyPair, Integer count)
+  public List<Order> getOpenOrders(CurrencyPair currencyPair, Integer count)
       throws IOException {
 
     CryptopiaBaseResponse<List<Map>> response =
@@ -40,7 +40,7 @@ public class CryptopiaTradeServiceRaw extends CryptopiaBaseService {
             new Cryptopia.GetOpenOrdersRequest(
                 currencyPair == null ? null : currencyPair.toString(), count));
 
-    List<LimitOrder> results = new ArrayList<>();
+    List<Order> results = new ArrayList<>();
     for (Map map : response.getData()) {
 
       Order.OrderType type = type(map);

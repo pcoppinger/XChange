@@ -14,6 +14,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 
 /** Tests the BitbayAdapter class */
@@ -60,13 +61,13 @@ public class BitbayAdapterTest {
     OpenOrders openOrders = BitbayAdapters.adaptOpenOrders(orders);
 
     assertThat(openOrders.getOpenOrders().size()).isEqualTo(2);
-    assertThat(openOrders.getOpenOrders().get(0).getLimitPrice()).isEqualByComparingTo("1400");
+    assertThat(((LimitOrder) openOrders.getOpenOrders().get(0)).getLimitPrice()).isEqualByComparingTo("1400");
     assertThat(openOrders.getOpenOrders().get(0).getOriginalAmount()).isEqualTo("0.10000000");
     assertThat(openOrders.getOpenOrders().get(0).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_EUR);
     assertThat(openOrders.getOpenOrders().get(0).getType()).isEqualTo(Order.OrderType.ASK);
     assertThat(openOrders.getOpenOrders().get(0).getId()).isEqualTo("59057271");
 
-    assertThat(openOrders.getOpenOrders().get(1).getLimitPrice()).isEqualByComparingTo("1500");
+    assertThat(((LimitOrder) openOrders.getOpenOrders().get(1)).getLimitPrice()).isEqualByComparingTo("1500");
     assertThat(openOrders.getOpenOrders().get(1).getOriginalAmount()).isEqualTo("0.10000000");
     assertThat(openOrders.getOpenOrders().get(1).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_EUR);
     assertThat(openOrders.getOpenOrders().get(1).getType()).isEqualTo(Order.OrderType.ASK);

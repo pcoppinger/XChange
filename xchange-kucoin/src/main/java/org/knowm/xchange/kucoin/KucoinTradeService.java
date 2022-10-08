@@ -21,7 +21,6 @@ import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.kucoin.dto.response.HistOrdersResponse;
 import org.knowm.xchange.kucoin.dto.response.OrderCancelResponse;
 import org.knowm.xchange.kucoin.dto.response.OrderResponse;
@@ -231,7 +230,7 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
   }
 
   private OpenOrders convertOpenOrders(Collection<OrderResponse> orders, OpenOrdersParams params) {
-    Builder<LimitOrder> openOrders = ImmutableList.builder();
+    Builder<Order> openOrders = ImmutableList.builder();
     Builder<Order> hiddenOrders = ImmutableList.builder();
     orders.stream()
         .map(KucoinAdapters::adaptOrder)

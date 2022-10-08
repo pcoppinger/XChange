@@ -12,6 +12,7 @@ import org.knowm.xchange.bitso.dto.BitsoException;
 import org.knowm.xchange.bitso.dto.trade.BitsoOrder;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
@@ -49,7 +50,7 @@ public class BitsoTradeService extends BitsoTradeServiceRaw implements TradeServ
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     BitsoOrder[] openOrders = getBitsoOpenOrders();
 
-    List<LimitOrder> limitOrders = new ArrayList<>();
+    List<Order> limitOrders = new ArrayList<>();
     for (BitsoOrder bitsoOrder : openOrders) {
       OrderType orderType = bitsoOrder.getType() == 0 ? OrderType.BID : OrderType.ASK;
       String id = bitsoOrder.getId();

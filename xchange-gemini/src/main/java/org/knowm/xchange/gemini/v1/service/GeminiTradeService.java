@@ -40,7 +40,7 @@ import org.knowm.xchange.utils.DateUtils;
 
 public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeService {
 
-  private static final OpenOrders noOpenOrders = new OpenOrders(new ArrayList<LimitOrder>());
+  private static final OpenOrders noOpenOrders = new OpenOrders(new ArrayList<Order>());
 
   public GeminiTradeService(Exchange exchange) {
 
@@ -59,7 +59,7 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
     if (activeOrders.length <= 0) {
       return noOpenOrders;
     } else {
-      if (params != null && params instanceof OpenOrdersParamCurrencyPair) {
+      if (params instanceof OpenOrdersParamCurrencyPair) {
         OpenOrdersParamCurrencyPair openOrdersParamCurrencyPair =
             (OpenOrdersParamCurrencyPair) params;
         return GeminiAdapters.adaptOrders(

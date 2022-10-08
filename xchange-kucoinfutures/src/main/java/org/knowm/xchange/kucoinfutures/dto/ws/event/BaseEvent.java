@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-class BaseEvent {
+public class BaseEvent {
 
   public final String topic;
   public final String subject;

@@ -6,17 +6,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class OrderEvent extends BaseEvent {
+public class OrderChangeEvent extends BaseEvent {
 
   public final String type;
   public final String channelType;
   public final Data data;
 
-  public OrderEvent(@JsonProperty("topic") String topic,
-                    @JsonProperty("subject") String subject,
-                    @JsonProperty("type") String type,
-                    @JsonProperty("channelType") String channelType,
-                    @JsonProperty("data") Data data) {
+  public OrderChangeEvent(@JsonProperty("topic") String topic,
+                          @JsonProperty("subject") String subject,
+                          @JsonProperty("type") String type,
+                          @JsonProperty("channelType") String channelType,
+                          @JsonProperty("data") Data data) {
 
     super(topic, subject);
     this.type = type;

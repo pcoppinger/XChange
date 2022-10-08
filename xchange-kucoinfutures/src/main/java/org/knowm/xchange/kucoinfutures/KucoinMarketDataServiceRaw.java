@@ -141,11 +141,11 @@ public class KucoinMarketDataServiceRaw extends KucoinBaseService {
                 .call());
   }
 
-  public List<TradeHistoryResponse> getKucoinTrades(CurrencyPair pair) throws IOException {
+  public List<TradeHistoryResponse> getKucoinTrades(Instrument instrument) throws IOException {
     return classifyingExceptions(
         () ->
             decorateApiCall(
-                    () -> historyApi.getTradeHistories(org.knowm.xchange.kucoinfutures.KucoinAdapters.adaptCurrencyPair(pair)))
+                    () -> historyApi.getTradeHistories(org.knowm.xchange.kucoinfutures.KucoinAdapters.adaptInstrument(instrument)))
                 .withRetry(retry("tradeHistories"))
                 .withRateLimiter(rateLimiter(PUBLIC_REST_ENDPOINT_RATE_LIMITER))
                 .call());

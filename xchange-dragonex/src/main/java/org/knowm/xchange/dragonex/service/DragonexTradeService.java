@@ -57,7 +57,7 @@ public class DragonexTradeService extends DragonexTradeServiceRaw implements Tra
         new OrderHistoryRequest(symbolId, null, null, 1000, 1 /* pending status*/);
     OrderHistory orderHistory = super.orderHistory(exchange.getOrCreateToken().token, req);
 
-    List<LimitOrder> openOrders =
+    List<org.knowm.xchange.dto.Order> openOrders =
         orderHistory.getList().stream()
             .map(
                 o ->

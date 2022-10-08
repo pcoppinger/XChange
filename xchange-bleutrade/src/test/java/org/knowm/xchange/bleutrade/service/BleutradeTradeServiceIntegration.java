@@ -105,11 +105,11 @@ public class BleutradeTradeServiceIntegration extends BleutradeServiceTestSuppor
             any(SynchronizedValueFactory.class)))
         .thenReturn(openOrdersReturn);
 
-    final LimitOrder[] expectedOrders = expectedOrders();
+    final Order[] expectedOrders = expectedOrders();
 
     // when
     OpenOrders openOrders = tradeService.getOpenOrders();
-    List<LimitOrder> ordersList = openOrders.getOpenOrders();
+    List<Order> ordersList = openOrders.getOpenOrders();
 
     // then
     assertThat(ordersList).hasSize(2);

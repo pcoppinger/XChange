@@ -8,6 +8,7 @@ import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -65,7 +66,7 @@ public class LunoTradeService extends LunoBaseService implements TradeService {
   public OpenOrders getOpenOrders(OpenOrdersParams params)
       throws ExchangeException, NotAvailableFromExchangeException,
           NotYetImplementedForExchangeException, IOException {
-    List<LimitOrder> list = new ArrayList<>();
+    List<Order> list = new ArrayList<>();
     for (org.knowm.xchange.luno.dto.trade.LunoOrders.Order lo :
         lunoAPI.listOrders(State.PENDING, null).getOrders()) {
       list.add(

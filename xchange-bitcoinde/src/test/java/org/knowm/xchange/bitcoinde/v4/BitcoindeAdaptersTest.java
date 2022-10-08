@@ -313,7 +313,7 @@ public class BitcoindeAdaptersTest {
     assertThat(openOrders.getOpenOrders()).isNotNull();
     assertThat(openOrders.getOpenOrders().size()).isEqualTo(1);
 
-    LimitOrder order = openOrders.getOpenOrders().get(0);
+    LimitOrder order = (LimitOrder) openOrders.getOpenOrders().get(0);
     assertThat(order.getId()).isEqualTo("VNSP86");
     assertThat(order.getType()).isEqualTo(OrderType.BID);
     assertThat(order.getInstrument()).isEqualTo(CurrencyPair.BTC_EUR);

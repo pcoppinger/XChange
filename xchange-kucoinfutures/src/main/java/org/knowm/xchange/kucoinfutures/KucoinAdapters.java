@@ -12,7 +12,6 @@ import static org.knowm.xchange.kucoinfutures.dto.KucoinOrderFlags.POST_ONLY;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.Ordering;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
@@ -71,16 +70,19 @@ import org.knowm.xchange.kucoinfutures.dto.response.WithdrawalResponse;
 
 public class KucoinAdapters {
 
-  private static final String TAKER_FEE_RATE = "takerFeeRate";
-  private static final HashMap<CurrencyPair, String> currencyToSymbol = new HashMap<>();
-  private static final HashMap<String, CurrencyPair> symbolToCurrency = new HashMap<>();
+  private static final HashMap<Instrument, String> currencyToSymbol = new HashMap<>();
+  private static final HashMap<String, Instrument> symbolToCurrency = new HashMap<>();
+
+  private static BigDecimal multiply(BigDecimal a, BigDecimal b) {
+    return (a != null && b != null) ? a.multiply(b) : null;
+  }
 
   public static String adaptCurrencyPair(CurrencyPair pair) {
     return pair == null ? null : currencyToSymbol.get(pair);
   }
 
   public static CurrencyPair adaptCurrencyPair(String symbol) {
-    return symbolToCurrency.get(symbol);
+    return (CurrencyPair) symbolToCurrency.get(symbol);
   }
 
   public static String adaptInstrument(Instrument instrument) { return instrument == null ? null : currencyToSymbol.get(instrument); }
@@ -139,15 +141,14 @@ public class KucoinAdapters {
    * <strong>and max</strong> amount that the XChange API current doesn't take account of.
    *
    * @param exchangeMetaData The static exchange metadata.
-   * @param currencies Kucoin contracts
-   * @param
+   * @param contractsResponse The Kucoin contracts
+   * @param currencies The Kucoin currencies
    * @return Exchange metadata.
    */
   public static ExchangeMetaData adaptMetadata(
       ExchangeMetaData exchangeMetaData,
       List<ContractResponse> contractsResponse,
-      Collection<WithdrawalQuotaResponse> currencies)
-      throws IOException {
+      Collection<WithdrawalQuotaResponse> currencies) {
 
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
     Map<Currency, CurrencyMetaData> currencyMetaDataMap = exchangeMetaData.getCurrencies();
@@ -236,36 +237,42 @@ public class KucoinAdapters {
     return walletHealth;
   }
 
-  public static OrderBook adaptOrderBook(Instrument instrument, OrderBookResponse kc) {
+  public static OrderBook adaptOrderBook(Exchange exchange, Instrument instrument, OrderBookResponse kc) {
+    CurrencyPairMetaData cpmd = exchange.getExchangeMetaData().getCurrencyPairs().get(instrument);
     Date timestamp = new Date(kc.getTime());
     List<LimitOrder> asks =
         kc.getAsks().stream()
             .map(PriceAndSize::new)
-            .sorted(Ordering.natural().onResultOf(s -> s.price))
-            .map(s -> adaptLimitOrder(instrument, ASK, s, timestamp))
+            .sorted(Ordering.natural().onResultOf(s -> s != null ? s.price : null))
+            .map(s -> adaptLimitOrder(instrument, cpmd, ASK, s, timestamp))
             .collect(toCollection(LinkedList::new));
     List<LimitOrder> bids =
         kc.getBids().stream()
             .map(PriceAndSize::new)
-            .sorted(Ordering.natural().onResultOf((PriceAndSize s) -> s.price).reversed())
-            .map(s -> adaptLimitOrder(instrument, BID, s, timestamp))
+            .sorted(Ordering.natural().onResultOf((PriceAndSize s) -> s != null ? s.price : null).reversed())
+            .map(s -> adaptLimitOrder(instrument, cpmd, BID, s, timestamp))
             .collect(toCollection(LinkedList::new));
     return new OrderBook(timestamp, asks, bids);
   }
 
-  private static LimitOrder adaptLimitOrder(
-      Instrument instrument, OrderType orderType, PriceAndSize priceAndSize, Date timestamp) {
+  public static LimitOrder adaptLimitOrder(Instrument instrument,
+                                           CurrencyPairMetaData cpmd,
+                                           OrderType orderType,
+                                           PriceAndSize priceAndSize,
+                                           Date timestamp) {
     return new LimitOrder.Builder(orderType, instrument)
-        .limitPrice(priceAndSize.price)
-        .originalAmount(priceAndSize.size)
+        .timestamp(timestamp)
+        .limitPrice(priceAndSize.price.setScale(cpmd.getPriceScale(), RoundingMode.HALF_EVEN))
+        .originalAmount(multiply(priceAndSize.size, cpmd.getAmountStepSize()).setScale(cpmd.getBaseScale(), RoundingMode.HALF_EVEN))
         .orderStatus(NEW)
         .build();
   }
 
-  public static Trades adaptTrades(
-      CurrencyPair currencyPair, List<TradeHistoryResponse> kucoinTrades) {
+  public static Trades adaptTrades(Instrument instrument,
+                                   CurrencyPairMetaData cpmd,
+                                   List<TradeHistoryResponse> kucoinTrades) {
     return new Trades(
-        kucoinTrades.stream().map(o -> adaptTrade(currencyPair, o)).collect(Collectors.toList()),
+        kucoinTrades.stream().map(o -> adaptTrade(instrument, cpmd, o)).collect(Collectors.toList()),
         TradeSortType.SortByTimestamp);
   }
 
@@ -273,11 +280,13 @@ public class KucoinAdapters {
     return new Balance(Currency.getInstance(a.getCurrency()), a.getAccountEquity(), a.getAvailableBalance());
   }
 
-  private static Trade adaptTrade(CurrencyPair currencyPair, TradeHistoryResponse trade) {
+  private static Trade adaptTrade(Instrument instrument,
+                                  CurrencyPairMetaData cpmd,
+                                  TradeHistoryResponse trade) {
     return new Trade.Builder()
-        .instrument(currencyPair)
-        .originalAmount(trade.getSize())
-        .price(trade.getPrice())
+        .instrument(instrument)
+        .originalAmount(multiply(trade.getSize(), cpmd.getAmountStepSize()).setScale(cpmd.getBaseScale(), RoundingMode.HALF_EVEN))
+        .price(trade.getPrice().setScale(cpmd.getPriceScale(), RoundingMode.HALF_EVEN))
         .timestamp(new Date(Long.parseLong(trade.getSequence())))
         .type(adaptSide(trade.getSide()))
         .build();
@@ -356,12 +365,12 @@ public class KucoinAdapters {
                 order.getDealSize().compareTo(BigDecimal.ZERO) == 0
                     ? MoreObjects.firstNonNull(order.getPrice(), order.getStopPrice())
                     : order.getDealValue().divide(order.getDealSize(), RoundingMode.HALF_UP))
-            .cumulativeAmount(order.getDealSize().multiply(cpmd.getAmountStepSize()))
+            .cumulativeAmount(order.getDealSize().multiply(cpmd.getAmountStepSize()).setScale(cpmd.getBaseScale(), RoundingMode.HALF_EVEN))
 //          .fee(order.getFee())
             .id(order.getId())
             .orderStatus(status)
-            .originalAmount(order.getSize().multiply(cpmd.getAmountStepSize()))
-            .remainingAmount(order.getSize().subtract(order.getFilledSize()).multiply(cpmd.getAmountStepSize()))
+            .originalAmount(order.getSize().multiply(cpmd.getAmountStepSize()).setScale(cpmd.getBaseScale(), RoundingMode.HALF_EVEN))
+            .remainingAmount(order.getSize().subtract(order.getFilledSize()).multiply(cpmd.getAmountStepSize()).setScale(cpmd.getBaseScale(), RoundingMode.HALF_EVEN))
             .timestamp(order.getCreatedAt())
             .updatedAt(order.getUpdatedAt())
             .endAt(order.getEndAt())
@@ -376,29 +385,32 @@ public class KucoinAdapters {
         : ((LimitOrder.Builder) builder).build();
   }
 
-  public static UserTrade adaptUserTrade(TradeResponse trade) {
+  public static UserTrade adaptUserTrade(Exchange exchange, TradeResponse trade) {
+    CurrencyPair currencyPair = adaptCurrencyPair(trade.getSymbol());
+    CurrencyPairMetaData cpmd = exchange.getExchangeMetaData().getCurrencyPairs().get(currencyPair);
     return new UserTrade.Builder()
-        .currencyPair(adaptCurrencyPair(trade.getSymbol()))
+        .currencyPair(currencyPair)
         .feeAmount(trade.getFee())
         .feeCurrency(Currency.getInstance(trade.getFeeCurrency()))
         .id(trade.getTradeId())
         .orderId(trade.getOrderId())
-        .originalAmount(trade.getSize())
-        .price(trade.getPrice())
+        .originalAmount(trade.getSize().multiply(cpmd.getAmountStepSize()).setScale(cpmd.getBaseScale(), RoundingMode.HALF_EVEN))
+        .price(trade.getPrice().setScale(cpmd.getPriceScale(), RoundingMode.HALF_EVEN))
         .timestamp(trade.getTradeCreatedAt())
         .type(adaptSide(trade.getSide()))
         .build();
   }
 
-  public static UserTrade adaptHistOrder(HistOrdersResponse histOrder) {
+  public static UserTrade adaptHistOrder(Exchange exchange, HistOrdersResponse histOrder) {
     CurrencyPair currencyPair = adaptCurrencyPair(histOrder.getSymbol());
+    CurrencyPairMetaData cpmd = exchange.getExchangeMetaData().getCurrencyPairs().get(currencyPair);
     return new UserTrade.Builder()
         .currencyPair(currencyPair)
-        .feeAmount(histOrder.getFee())
+        .feeAmount(histOrder.getFee().setScale(cpmd.getPriceScale(), RoundingMode.HALF_EVEN))
         .feeCurrency(currencyPair.base)
         .id(histOrder.getId())
-        .originalAmount(histOrder.getAmount())
-        .price(histOrder.getPrice())
+        .originalAmount(histOrder.getAmount().multiply(cpmd.getAmountStepSize()).setScale(cpmd.getBaseScale(), RoundingMode.HALF_EVEN))
+        .price(histOrder.getPrice().setScale(cpmd.getPriceScale(), RoundingMode.HALF_EVEN))
         .timestamp(histOrder.getTradeCreatedAt())
         .type(adaptSide(histOrder.getSide()))
         .build();
@@ -417,7 +429,6 @@ public class KucoinAdapters {
   public static OrderCreateApiRequest adaptStopOrder(Exchange exchange, StopOrder stopOrder) {
     return ((OrderCreateApiRequest.OrderCreateApiRequestBuilder) adaptOrder(exchange, stopOrder))
         .type(stopOrder.getLimitPrice() == null ? "market" : "limit")
-        .leverage(new BigDecimal(stopOrder.getLeverage()))
         .price(stopOrder.getLimitPrice())
         .stop(adaptIntention(stopOrder.getType(), stopOrder.getIntention()))
         .stopPriceType("TP")
@@ -464,12 +475,13 @@ public class KucoinAdapters {
     CurrencyPairMetaData cpmd = exchange.getExchangeMetaData().getCurrencyPairs().get(order.getInstrument());
     return request
         .symbol(adaptCurrencyPair((CurrencyPair) order.getInstrument()))
-        .size(order.getOriginalAmount().divide(cpmd.getAmountStepSize()))
+        .size(order.getOriginalAmount().divide(cpmd.getAmountStepSize(), RoundingMode.HALF_EVEN))
         .side(adaptSide(order.getType()))
+        .leverage(new BigDecimal(order.getLeverage()))
         .remark(order.getUserReference());
   }
 
-  private static final class PriceAndSize {
+  public static final class PriceAndSize {
 
     final BigDecimal price;
     final BigDecimal size;

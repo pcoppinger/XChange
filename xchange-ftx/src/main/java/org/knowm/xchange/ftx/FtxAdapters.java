@@ -288,7 +288,7 @@ public class FtxAdapters {
   }
 
   public static OpenOrders adaptOpenOrders(FtxResponse<List<FtxOrderDto>> ftxOpenOrdersResponse) {
-    List<LimitOrder> openOrders = new ArrayList<>();
+    List<Order> openOrders = new ArrayList<>();
 
     ftxOpenOrdersResponse
         .getResult()

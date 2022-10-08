@@ -428,7 +428,7 @@ public final class BitfinexAdapters {
 
   public static OpenOrders adaptOrders(BitfinexOrderStatusResponse[] activeOrders) {
 
-    List<LimitOrder> limitOrders = new ArrayList<>();
+    List<Order> limitOrders = new ArrayList<>();
     List<Order> hiddenOrders = new ArrayList<>();
 
     for (BitfinexOrderStatusResponse order : activeOrders) {

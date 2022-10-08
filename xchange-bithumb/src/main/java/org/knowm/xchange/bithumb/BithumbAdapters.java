@@ -137,7 +137,7 @@ public final class BithumbAdapters {
   }
 
   public static OpenOrders adaptOrders(List<BithumbOrder> bithumbOrders) {
-    final List<LimitOrder> orders =
+    final List<Order> orders =
         bithumbOrders.stream().map(BithumbAdapters::adaptOrder).collect(Collectors.toList());
     return new OpenOrders(orders);
   }

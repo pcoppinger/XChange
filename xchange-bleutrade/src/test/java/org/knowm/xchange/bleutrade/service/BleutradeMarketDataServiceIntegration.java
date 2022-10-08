@@ -30,6 +30,7 @@ import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeTicker;
 import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeTickerReturn;
 import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeTrade;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;

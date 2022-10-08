@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
@@ -39,7 +40,7 @@ public class YoBitTradeService extends YoBitTradeServiceRaw {
     if (params instanceof OpenOrdersParamCurrencyPair) {
       BaseYoBitResponse response = activeOrders((OpenOrdersParamCurrencyPair) params);
 
-      List<LimitOrder> orders = new ArrayList<>();
+      List<Order> orders = new ArrayList<>();
 
       if (response.returnData != null) {
         for (Object key : response.returnData.keySet()) {

@@ -63,7 +63,7 @@ public class TradeMockedIntegrationTest extends BaseMockedIntegrationTest {
     OpenOrders openOrders = tradeService.getOpenOrders();
     assertThat(openOrders).isNotNull();
     assertThat(openOrders.getOpenOrders()).isNotEmpty();
-    LimitOrder firstOrder = openOrders.getOpenOrders().get(0);
+    LimitOrder firstOrder = (LimitOrder) openOrders.getOpenOrders().get(0);
     assertThat(firstOrder).isNotNull();
     assertThat(firstOrder.getOriginalAmount()).isNotNull().isPositive();
     assertThat(firstOrder.getId()).isNotBlank();

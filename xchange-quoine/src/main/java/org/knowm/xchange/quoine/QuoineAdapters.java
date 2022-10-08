@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
@@ -131,7 +132,7 @@ public class QuoineAdapters {
 
   public static OpenOrders adapteOpenOrders(QuoineOrdersList quoineOrdersList) {
 
-    List<LimitOrder> openOrders = new ArrayList<>();
+    List<Order> openOrders = new ArrayList<>();
     for (Model model : quoineOrdersList.getModels()) {
       if (model.getStatus().equals("live")) {
 

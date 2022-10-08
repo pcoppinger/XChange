@@ -159,7 +159,7 @@ public final class BitcointoyouAdapters {
   public static OpenOrders adaptBitcointoyouOpenOrders(
       BitcointoyouOrderResponse bitcointoyouOpenOrders) {
 
-    List<LimitOrder> openOrders = new ArrayList<>();
+    List<Order> openOrders = new ArrayList<>();
 
     if (bitcointoyouOpenOrders != null && bitcointoyouOpenOrders.getOrderList() != null) {
       Collection<BitcointoyouOrderInfo> ordersInfo = bitcointoyouOpenOrders.getOrderList();

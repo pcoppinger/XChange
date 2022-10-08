@@ -225,7 +225,7 @@ public final class BTCTurkAdapters {
   }
 
   public static OpenOrders adaptOpenOrders(List<BTCTurkOpenOrders> openOrdersRaw) {
-    List<LimitOrder> limitOrders = new ArrayList<>();
+    List<Order> limitOrders = new ArrayList<>();
 
     for (BTCTurkOpenOrders BTCTurkOpenOrder : openOrdersRaw) {
       limitOrders.add(adaptOrder(BTCTurkOpenOrder));

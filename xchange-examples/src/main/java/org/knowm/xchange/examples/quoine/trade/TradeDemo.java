@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
@@ -65,7 +66,7 @@ public class TradeDemo {
 
     // list open orders
     OpenOrders openOrders = tradeService.getOpenOrders();
-    for (LimitOrder openOrder : openOrders.getOpenOrders()) {
+    for (Order openOrder : openOrders.getOpenOrders()) {
       System.out.println(openOrder.toString());
     }
   }

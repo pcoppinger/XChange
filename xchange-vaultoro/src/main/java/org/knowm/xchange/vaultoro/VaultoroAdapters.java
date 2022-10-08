@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
@@ -98,7 +99,7 @@ public final class VaultoroAdapters {
 
   public static OpenOrders adaptVaultoroOpenOrders(Map<String, List<VaultoroOpenOrder>> orders) {
 
-    List<LimitOrder> openOrders = new ArrayList<>();
+    List<Order> openOrders = new ArrayList<>();
 
     if (orders.containsKey("b")) {
       for (VaultoroOpenOrder o : orders.get("b")) {

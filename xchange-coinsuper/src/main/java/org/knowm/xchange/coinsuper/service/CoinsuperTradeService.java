@@ -40,7 +40,7 @@ public class CoinsuperTradeService extends CoinsuperTradeServiceRaw implements T
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, IOException {
-    List<LimitOrder> limitOrders = new ArrayList<>();
+    List<Order> limitOrders = new ArrayList<>();
     Map<String, String> parameters = new HashMap<String, String>();
 
     CoinsuperResponse<List<String>> openOrders = orderOpenList(parameters);

@@ -10,7 +10,6 @@ import java.util.List;
 public class OrderBookEvent extends BaseEvent {
 
   public final String type;
-
   public final Data data;
 
   public OrderBookEvent(@JsonProperty("topic") String topic,

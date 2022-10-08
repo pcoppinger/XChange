@@ -75,7 +75,7 @@ public class CoinjarTradeService extends CoinjarTradeServiceRaw implements Trade
     if (params instanceof TradeHistoryParamPaging) {
       cursor = ((TradeHistoryParamPaging) params).getPageNumber();
     }
-    List<LimitOrder> limitOrders =
+    List<Order> limitOrders =
         super.getOpenOrders(cursor).stream()
             .map(CoinjarAdapters::adaptOrderToLimitOrder)
             .collect(Collectors.toList());

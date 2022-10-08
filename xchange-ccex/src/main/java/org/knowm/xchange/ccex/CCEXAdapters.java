@@ -171,9 +171,9 @@ public class CCEXAdapters {
     return Wallet.Builder.from(wallets).build();
   }
 
-  public static List<LimitOrder> adaptOpenOrders(List<CCEXOpenorder> cCexOpenOrders) {
+  public static List<Order> adaptOpenOrders(List<CCEXOpenorder> cCexOpenOrders) {
 
-    List<LimitOrder> openOrders = new ArrayList<>();
+    List<Order> openOrders = new ArrayList<>();
 
     for (CCEXOpenorder order : cCexOpenOrders) {
       openOrders.add(adaptOpenOrder(order));

@@ -57,7 +57,7 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw
     MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> openOrdersLitecoinResult =
         getMercadoBitcoinUserOrders("ltc_brl", null, "active", null, null, null, null);
 
-    List<LimitOrder> limitOrders = new ArrayList<>();
+    List<Order> limitOrders = new ArrayList<>();
 
     limitOrders.addAll(
         MercadoBitcoinAdapters.adaptOrders(CurrencyPair.BTC_BRL, openOrdersBitcoinResult));

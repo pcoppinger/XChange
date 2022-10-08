@@ -13,6 +13,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
@@ -46,7 +47,7 @@ public class KrakenUtilsTest {
     // Verify that the example data was unmarshalled correctly
     assertThat(orders.getOpenOrders()).hasSize(1);
     assertThat(orders.getOpenOrders().get(0).getId()).isEqualTo("OU5JPQ-OIDTK-QIGIGI");
-    assertThat(orders.getOpenOrders().get(0).getLimitPrice()).isEqualTo("1000.000");
+    assertThat(((LimitOrder) orders.getOpenOrders().get(0)).getLimitPrice()).isEqualTo("1000.000");
     assertThat(orders.getOpenOrders().get(0).getOriginalAmount()).isEqualTo("0.01000000");
     assertThat(orders.getOpenOrders().get(0).getCurrencyPair().base).isEqualTo(Currency.XBT);
     assertThat(orders.getOpenOrders().get(0).getCurrencyPair().counter).isEqualTo(Currency.EUR);

@@ -55,7 +55,7 @@ public class CoinmateStreamingAdapter {
 
   public static OpenOrders adaptWebsocketOpenOrders(
       List<CoinmateWebsocketOpenOrder> coinmateWebsocketOpenOrders, CurrencyPair currencyPair) {
-    List<LimitOrder> openOrders = new ArrayList<>();
+    List<Order> openOrders = new ArrayList<>();
     coinmateWebsocketOpenOrders.forEach(
         (coinmateWebsocketOpenOrder) -> {
           openOrders.add(

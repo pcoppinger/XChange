@@ -157,7 +157,7 @@ public class GeminiAdaptersTest {
     assertEquals(orders.getOpenOrders().size(), responses.length);
 
     for (int i = 0; i < responses.length; i++) {
-      LimitOrder order = orders.getOpenOrders().get(i);
+      Order order = orders.getOpenOrders().get(i);
       long expectedTimestampMillis =
           new BigDecimal(responses[i].getTimestamp()).multiply(new BigDecimal(1000L)).longValue();
       Order.OrderType expectedOrderType =
@@ -174,7 +174,7 @@ public class GeminiAdaptersTest {
       assertEquals(GeminiAdapters.adaptCurrencyPair(SYMBOL), order.getInstrument());
       assertEquals(expectedOrderType, order.getType());
       assertEquals(expectedTimestampMillis, order.getTimestamp().getTime());
-      assertEquals(responses[i].getPrice(), order.getLimitPrice());
+      assertEquals(responses[i].getPrice(), ((LimitOrder) order).getLimitPrice());
     }
   }
 
@@ -191,7 +191,7 @@ public class GeminiAdaptersTest {
     assertEquals(orders.getOpenOrders().size(), responsesToRetain.length);
 
     for (int i = 0; i < responsesToRetain.length; i++) {
-      LimitOrder order = orders.getOpenOrders().get(i);
+      LimitOrder order = (LimitOrder) orders.getOpenOrders().get(i);
       long expectedTimestampMillis =
           new BigDecimal(responsesToRetain[i].getTimestamp())
               .multiply(new BigDecimal(1000L))

@@ -147,7 +147,7 @@ public class CoinfloorAdapters {
   }
 
   public static OpenOrders adaptOpenOrders(Collection<CoinfloorOrder> openOrders) {
-    List<LimitOrder> limitOrders = new ArrayList<>();
+    List<Order> limitOrders = new ArrayList<>();
     for (CoinfloorOrder rawOrder : openOrders) {
       LimitOrder order =
           new LimitOrder(

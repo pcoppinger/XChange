@@ -277,7 +277,7 @@ public class KrakenAdapters {
 
   public static OpenOrders adaptOpenOrders(Map<String, KrakenOrder> krakenOrders) {
 
-    List<LimitOrder> limitOrders = new ArrayList<>();
+    List<Order> limitOrders = new ArrayList<>();
     for (Entry<String, KrakenOrder> krakenOrderEntry : krakenOrders.entrySet()) {
       KrakenOrder krakenOrder = krakenOrderEntry.getValue();
       KrakenOrderDescription orderDescription = krakenOrder.getOrderDescription();

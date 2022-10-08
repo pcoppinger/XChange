@@ -16,6 +16,7 @@ import org.knowm.xchange.bitbay.dto.marketdata.BitbayTrade;
 import org.knowm.xchange.bitbay.dto.trade.BitbayOrder;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
@@ -148,7 +149,7 @@ public class BitbayAdapters {
   }
 
   public static OpenOrders adaptOpenOrders(List<BitbayOrder> orders) {
-    List<LimitOrder> result = new ArrayList<>();
+    List<Order> result = new ArrayList<>();
 
     for (BitbayOrder order : orders) {
       if ("active".equals(order.getStatus())) {

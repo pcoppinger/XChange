@@ -6,6 +6,7 @@ import org.knowm.xchange.cobinhood.CobinhoodExchange;
 import org.knowm.xchange.cobinhood.dto.trading.CobinhoodOpenOrdersParams;
 import org.knowm.xchange.cobinhood.service.CobinhoodTradeService;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.examples.cobinhood.CobinhoodDemoUtils;
@@ -29,7 +30,7 @@ public class CobinhoodTradeDemo {
 
     // Get open orders
     OpenOrders orders = tradeService.getOpenOrders(new CobinhoodOpenOrdersParams(pair));
-    LimitOrder order = orders.getOpenOrders().stream().collect(StreamUtils.singletonCollector());
+    Order order = orders.getOpenOrders().stream().collect(StreamUtils.singletonCollector());
     if (order != null) {
       System.out.println(order);
     }
@@ -41,7 +42,7 @@ public class CobinhoodTradeDemo {
     CobinhoodTradeService tradeService = (CobinhoodTradeService) exchange.getTradeService();
     // Get open orders
     OpenOrders orders = tradeService.getOpenOrders(pair);
-    LimitOrder order = orders.getOpenOrders().stream().collect(StreamUtils.singletonCollector());
+    Order order = orders.getOpenOrders().stream().collect(StreamUtils.singletonCollector());
     if (order != null) {
       System.out.println(order);
     }

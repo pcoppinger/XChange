@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
@@ -59,7 +60,7 @@ public class EXXAdapters {
   }
 
   /**
-   * @param ticker
+   * @param exxTickerResponse
    * @return
    */
   public static Ticker convertTicker(EXXTickerResponse exxTickerResponse) {
@@ -106,8 +107,8 @@ public class EXXAdapters {
   /**
    * Adapts a to a OrderBook Object
    *
+   * @param exxOrderbook polled order books provide a timestamp in seconds, stream in ms
    * @param currencyPair (e.g. BTC/USD)
-   * @param timeScale polled order books provide a timestamp in seconds, stream in ms
    * @return The XChange OrderBook
    */
   public static OrderBook adaptOrderBook(EXXOrderbook exxOrderbook, CurrencyPair currencyPair) {
@@ -183,7 +184,7 @@ public class EXXAdapters {
 
   public static OpenOrders convertOpenOrders(
       List<EXXOrder> exxOpenOrders, CurrencyPair currencyPair) {
-    List<LimitOrder> openOrders = new LinkedList<>();
+    List<Order> openOrders = new LinkedList<>();
 
     for (EXXOrder exxOrder : exxOpenOrders) {
       openOrders.add(

@@ -8,6 +8,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.kucoinfutures.dto.response.TickerResponse;
 import org.knowm.xchange.service.marketdata.MarketDataService;
@@ -42,12 +43,12 @@ public class KucoinMarketDataService extends KucoinMarketDataServiceRaw
   @Override
   public List<Ticker> getTickers(Params params) throws IOException {
     if (params instanceof CurrencyPairsParam) {
-      Collection pairs = ((CurrencyPairsParam)params).getCurrencyPairs();
+      Collection<CurrencyPair> pairs = ((CurrencyPairsParam)params).getCurrencyPairs();
       if (pairs.size() == 1) {
         Iterator<CurrencyPair> iter = pairs.iterator();
         CurrencyPair currencyPair = iter.next();
         TickerResponse ticker = getKucoinTicker(currencyPair);
-        return Arrays.asList(KucoinAdapters.adaptTicker(currencyPair, ticker));
+        return Collections.singletonList(KucoinAdapters.adaptTicker(currencyPair, ticker));
       }
     }
     return KucoinAdapters.adaptAllTickers(getKucoinTickers());
@@ -56,18 +57,19 @@ public class KucoinMarketDataService extends KucoinMarketDataServiceRaw
   @Override
   public OrderBook getOrderBook(Instrument instrument, Object... args) throws IOException {
     if (Arrays.asList(args).contains(PARAM_FULL_ORDERBOOK)) {
-      return KucoinAdapters.adaptOrderBook(instrument, getKucoinOrderBookFull(instrument));
+      return KucoinAdapters.adaptOrderBook(exchange, instrument, getKucoinOrderBookFull(instrument));
     } else {
       if (Arrays.asList(args).contains(PARAM_PARTIAL_SHALLOW_ORDERBOOK)) {
         return KucoinAdapters.adaptOrderBook(
-            instrument, getKucoinOrderBookPartialShallow(instrument));
+            exchange, instrument, getKucoinOrderBookPartialShallow(instrument));
       }
-      return KucoinAdapters.adaptOrderBook(instrument, getKucoinOrderBookPartial(instrument));
+      return KucoinAdapters.adaptOrderBook(exchange, instrument, getKucoinOrderBookPartial(instrument));
     }
   }
 
   @Override
-  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-    return KucoinAdapters.adaptTrades(currencyPair, getKucoinTrades(currencyPair));
+  public Trades getTrades(Instrument instrument, Object... args) throws IOException {
+    CurrencyPairMetaData cpmd = exchange.getExchangeMetaData().getCurrencyPairs().get(instrument);
+    return KucoinAdapters.adaptTrades(instrument, cpmd, getKucoinTrades(instrument));
   }
 }

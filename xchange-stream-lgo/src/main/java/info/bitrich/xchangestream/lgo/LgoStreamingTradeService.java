@@ -70,7 +70,6 @@ public class LgoStreamingTradeService implements StreamingTradeService {
             u ->
                 u.getAllOpenOrders().values().stream()
                     .filter(order -> order instanceof LimitOrder)
-                    .map(order -> (LimitOrder) order)
                     .collect(Collectors.toList()))
         .map(OpenOrders::new);
   }

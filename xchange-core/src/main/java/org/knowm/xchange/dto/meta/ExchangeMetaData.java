@@ -9,6 +9,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.derivative.OptionsContract;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.utils.ObjectMapperHelper;
 
 /**
@@ -48,20 +49,19 @@ public class ExchangeMetaData implements Serializable {
    * {@link #privateRateLimits}.
    */
   @JsonProperty("share_rate_limits")
-  private boolean shareRateLimits = true;
+  private boolean shareRateLimits;
 
   /**
    * Constructor
-   *
-   * @param currencyPairs Map of {@link CurrencyPair} -> {@link CurrencyPairMetaData}
+   *  @param currencyPairs Map of {@link CurrencyPair} -> {@link CurrencyPairMetaData}
    * @param currency Map of currency -> {@link CurrencyMetaData}
    */
   public ExchangeMetaData(
-      Map<CurrencyPair, CurrencyPairMetaData> currencyPairs,
-      Map<Currency, CurrencyMetaData> currency,
-      RateLimit[] publicRateLimits,
-      RateLimit[] privateRateLimits,
-      Boolean shareRateLimits) {
+          Map<CurrencyPair, CurrencyPairMetaData> currencyPairs,
+          Map<Currency, CurrencyMetaData> currency,
+          RateLimit[] publicRateLimits,
+          RateLimit[] privateRateLimits,
+          Boolean shareRateLimits) {
     this(currencyPairs, currency, null, null, publicRateLimits, privateRateLimits, shareRateLimits);
   }
 

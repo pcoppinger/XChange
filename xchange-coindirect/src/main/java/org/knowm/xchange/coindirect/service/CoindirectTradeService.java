@@ -44,7 +44,7 @@ public class CoindirectTradeService extends CoindirectTradeServiceRaw implements
   }
 
   private OpenOrders createOpenOrders(List<CoindirectOrder> coindirectOrders) {
-    List<LimitOrder> limitOrders = new ArrayList<>();
+    List<Order> limitOrders = new ArrayList<>();
     List<Order> otherOrders = new ArrayList<>();
     coindirectOrders.forEach(
         coindirectOrder -> {

@@ -26,6 +26,7 @@ import org.knowm.xchange.bittrex.dto.marketdata.BittrexTrade;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOrder;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
@@ -56,7 +57,7 @@ public final class BittrexAdapters {
     return new CurrencyPair(baseSymbol, counterSymbol);
   }
 
-  public static List<LimitOrder> adaptOpenOrders(List<BittrexOrder> bittrexOpenOrders) {
+  public static List<Order> adaptOpenOrders(List<BittrexOrder> bittrexOpenOrders) {
     return bittrexOpenOrders == null
         ? null
         : bittrexOpenOrders.stream().map(BittrexAdapters::adaptOrder).collect(Collectors.toList());

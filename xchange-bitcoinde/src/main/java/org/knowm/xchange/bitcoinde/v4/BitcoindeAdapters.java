@@ -41,6 +41,7 @@ import org.knowm.xchange.bitcoinde.v4.dto.trade.BitcoindeMyTrade;
 import org.knowm.xchange.bitcoinde.v4.dto.trade.BitcoindeMyTradesWrapper;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -414,7 +415,7 @@ public final class BitcoindeAdapters {
    * @return
    */
   public static OpenOrders adaptOpenOrders(BitcoindeMyOrdersWrapper bitcoindeOpenOrdersWrapper) {
-    final List<LimitOrder> orders = new ArrayList<>();
+    final List<Order> orders = new ArrayList<>();
 
     for (BitcoindeMyOrder bitcoindeMyOrder : bitcoindeOpenOrdersWrapper.getOrders()) {
       final LimitOrder limitOrder =

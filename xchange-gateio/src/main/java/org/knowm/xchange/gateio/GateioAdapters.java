@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
@@ -129,7 +130,7 @@ public final class GateioAdapters {
   public static OpenOrders adaptOpenOrders(
       GateioOpenOrders openOrders, Collection<CurrencyPair> currencyPairs) {
 
-    List<LimitOrder> adaptedOrders = new ArrayList<>();
+    List<Order> adaptedOrders = new ArrayList<>();
     for (GateioOpenOrder openOrder : openOrders.getOrders()) {
       adaptedOrders.add(adaptOrder(openOrder, currencyPairs));
     }

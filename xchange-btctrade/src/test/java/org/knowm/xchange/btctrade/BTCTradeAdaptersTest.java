@@ -18,6 +18,7 @@ import org.knowm.xchange.btctrade.dto.marketdata.BTCTradeTrade;
 import org.knowm.xchange.btctrade.dto.trade.BTCTradeOrder;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -170,10 +171,10 @@ public class BTCTradeAdaptersTest {
             getClass().getResource("dto/trade/orders-open.json"), BTCTradeOrder[].class);
 
     OpenOrders openOrders = BTCTradeAdapters.adaptOpenOrders(btcTradeOrders);
-    List<LimitOrder> openOrderList = openOrders.getOpenOrders();
+    List<Order> openOrderList = openOrders.getOpenOrders();
     assertEquals(2, openOrderList.size());
 
-    LimitOrder order = openOrderList.get(0);
+    LimitOrder order = (LimitOrder) openOrderList.get(0);
     assertEquals(CurrencyPair.LTC_CNY, order.getCurrencyPair());
     assertEquals("16636810", order.getId());
     assertEquals(new BigDecimal("1.01"), order.getLimitPrice());
@@ -182,7 +183,7 @@ public class BTCTradeAdaptersTest {
     assertEquals(new BigDecimal("0.1"), order.getOriginalAmount());
     assertEquals(OrderType.BID, order.getType());
 
-    order = openOrderList.get(1);
+    order = (LimitOrder) openOrderList.get(1);
     assertEquals(CurrencyPair.BTC_CNY, order.getCurrencyPair());
     assertEquals("16634460", order.getId());
     assertEquals(new BigDecimal("10.01"), order.getLimitPrice());

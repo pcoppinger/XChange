@@ -38,7 +38,7 @@ import org.knowm.xchange.utils.DateUtils;
 
 public class BitfinexTradeService extends BitfinexTradeServiceRaw implements TradeService {
 
-  private static final OpenOrders noOpenOrders = new OpenOrders(new ArrayList<LimitOrder>());
+  private static final OpenOrders noOpenOrders = new OpenOrders(new ArrayList<Order>());
 
   public BitfinexTradeService(
       BitfinexExchange exchange, ResilienceRegistries resilienceRegistries) {
@@ -73,7 +73,7 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
       return rawOpenOrders;
     }
 
-    List<LimitOrder> openOrdersList = rawOpenOrders.getOpenOrders();
+    List<Order> openOrdersList = rawOpenOrders.getOpenOrders();
     openOrdersList.removeIf(openOrder -> !params.accept(openOrder));
 
     return new OpenOrders(openOrdersList, (List<Order>) rawOpenOrders.getHiddenOrders());

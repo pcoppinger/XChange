@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.latoken.LatokenExchange;
@@ -45,7 +46,7 @@ public class LatokenTradeServiceIntegration {
     DefaultOpenOrdersParamCurrencyPair params =
         (DefaultOpenOrdersParamCurrencyPair) tradeService.createOpenOrdersParams();
     params.setCurrencyPair(CurrencyPair.ETH_BTC);
-    List<LimitOrder> orders = tradeService.getOpenOrders(params).getOpenOrders();
+    List<Order> orders = tradeService.getOpenOrders(params).getOpenOrders();
     orders.forEach(order -> System.out.println(order));
   }
 
@@ -76,7 +77,7 @@ public class LatokenTradeServiceIntegration {
     DefaultOpenOrdersParamCurrencyPair params =
         (DefaultOpenOrdersParamCurrencyPair) tradeService.createOpenOrdersParams();
     params.setCurrencyPair(CurrencyPair.ETH_BTC);
-    List<LimitOrder> openOrders = tradeService.getOpenOrders(params).getOpenOrders();
+    List<Order> openOrders = tradeService.getOpenOrders(params).getOpenOrders();
     System.out.println(openOrders);
 
     // Cancel

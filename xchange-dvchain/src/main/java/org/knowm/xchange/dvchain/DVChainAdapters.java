@@ -103,7 +103,7 @@ public class DVChainAdapters {
   }
 
   public static OpenOrders adaptOpenOrders(List<DVChainTrade> orders) {
-    List<LimitOrder> openOrders = new ArrayList<>(orders.size());
+    List<Order> openOrders = new ArrayList<>(orders.size());
     for (DVChainTrade order : orders) {
       CurrencyPair currencyPair = new CurrencyPair(order.getAsset(), "USD");
       Order.OrderType orderType =

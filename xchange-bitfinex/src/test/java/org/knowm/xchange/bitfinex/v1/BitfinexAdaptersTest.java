@@ -200,7 +200,7 @@ public class BitfinexAdaptersTest {
     assertEquals(orders.getOpenOrders().size(), responses.length);
 
     for (int i = 0; i < responses.length; i++) {
-      LimitOrder order = orders.getOpenOrders().get(i);
+      LimitOrder order = (LimitOrder) orders.getOpenOrders().get(i);
       long expectedTimestampMillis =
           responses[i].getTimestamp().multiply(new BigDecimal(1000L)).longValue();
       Order.OrderType expectedOrderType =

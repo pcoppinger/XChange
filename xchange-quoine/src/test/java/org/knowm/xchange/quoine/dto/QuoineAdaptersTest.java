@@ -13,6 +13,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.quoine.QuoineAdapters;
 import org.knowm.xchange.quoine.dto.account.QuoineAccountInfo;
@@ -63,7 +64,7 @@ public class QuoineAdaptersTest {
     // Verify that the example data was unmarshalled correctly
     assertThat(openOrders.getOpenOrders().size()).isEqualTo(6);
     assertThat(openOrders.getOpenOrders().get(0).getId()).isEqualTo("52362");
-    assertThat(openOrders.getOpenOrders().get(0).getLimitPrice())
+    assertThat(((LimitOrder) openOrders.getOpenOrders().get(0)).getLimitPrice())
         .isEqualTo(new BigDecimal("250.0"));
     assertThat(openOrders.getOpenOrders().get(0).getTimestamp())
         .isEqualTo(new Date(1429953404000L));

@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -168,7 +169,7 @@ public final class OkCoinAdapters {
   }
 
   public static OpenOrders adaptOpenOrders(List<OkCoinOrderResult> orderResults) {
-    List<LimitOrder> openOrders = new ArrayList<>();
+    List<Order> openOrders = new ArrayList<>();
 
     for (OkCoinOrderResult orderResult : orderResults) {
       OkCoinOrder[] orders = orderResult.getOrders();
@@ -180,7 +181,7 @@ public final class OkCoinAdapters {
   }
 
   public static OpenOrders adaptOpenOrdersFutures(List<OkCoinFuturesOrderResult> orderResults) {
-    List<LimitOrder> openOrders = new ArrayList<>();
+    List<Order> openOrders = new ArrayList<>();
 
     for (OkCoinFuturesOrderResult orderResult : orderResults) {
       OkCoinFuturesOrder[] orders = orderResult.getOrders();

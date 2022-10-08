@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class OrderBookResponse extends OrderBook {
 
-  private String sequence;
+  private Long sequence;
 
   private long time;
 }

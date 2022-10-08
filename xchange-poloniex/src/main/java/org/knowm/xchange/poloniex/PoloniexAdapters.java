@@ -178,7 +178,7 @@ public class PoloniexAdapters {
   public static OpenOrders adaptPoloniexOpenOrders(
       Map<String, PoloniexOpenOrder[]> poloniexOpenOrders) {
 
-    List<LimitOrder> openOrders = new ArrayList<>();
+    List<Order> openOrders = new ArrayList<>();
     for (String pairString : poloniexOpenOrders.keySet()) {
       CurrencyPair currencyPair = PoloniexUtils.toCurrencyPair(pairString);
 

@@ -135,7 +135,7 @@ public class RippleAdaptersTest implements ITransferFeeSource {
     final OpenOrders orders = RippleAdapters.adaptOpenOrders(response, roundingScale);
     assertThat(orders.getOpenOrders()).hasSize(12);
 
-    final LimitOrder firstOrder = orders.getOpenOrders().get(0);
+    final LimitOrder firstOrder = (LimitOrder) orders.getOpenOrders().get(0);
     assertThat(firstOrder).isInstanceOf(RippleLimitOrder.class);
     assertThat(firstOrder.getCurrencyPair()).isEqualTo(CurrencyPair.XRP_BTC);
     assertThat(((RippleLimitOrder) firstOrder).getCounterCounterparty())
@@ -146,7 +146,7 @@ public class RippleAdaptersTest implements ITransferFeeSource {
     assertThat(firstOrder.getOriginalAmount()).isEqualTo("1");
     assertThat(firstOrder.getType()).isEqualTo(OrderType.BID);
 
-    final LimitOrder secondOrder = orders.getOpenOrders().get(1);
+    final LimitOrder secondOrder = (LimitOrder) orders.getOpenOrders().get(1);
     assertThat(secondOrder).isInstanceOf(RippleLimitOrder.class);
     assertThat(secondOrder.getCurrencyPair()).isEqualTo(CurrencyPair.XRP_BTC);
     assertThat(((RippleLimitOrder) secondOrder).getCounterCounterparty())

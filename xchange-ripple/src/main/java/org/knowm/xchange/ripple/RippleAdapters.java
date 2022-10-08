@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Set;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
@@ -202,7 +203,7 @@ public abstract class RippleAdapters {
    */
   public static OpenOrders adaptOpenOrders(
       final RippleAccountOrders rippleOrders, final int scale) {
-    final List<LimitOrder> list = new ArrayList<>(rippleOrders.getOrders().size());
+    final List<Order> list = new ArrayList<>(rippleOrders.getOrders().size());
     for (final RippleAccountOrdersBody order : rippleOrders.getOrders()) {
 
       final OrderType orderType;

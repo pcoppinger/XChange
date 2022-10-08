@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -51,7 +52,7 @@ public class GateioTradeDemo {
     OpenOrders openOrders = tradeService.getOpenOrders();
     System.out.println(openOrders);
 
-    List<LimitOrder> openOrdersList = openOrders.getOpenOrders();
+    List<Order> openOrdersList = openOrders.getOpenOrders();
     if (!openOrdersList.isEmpty()) {
       String existingOrderId = openOrdersList.get(0).getId();
 

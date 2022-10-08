@@ -200,8 +200,8 @@ public class HitbtcAdapters {
         hitbtcOrder.clientOrderId);
   }
 
-  public static List<LimitOrder> adaptOrders(List<HitbtcOrder> openOrdersRaw) {
-    List<LimitOrder> openOrders = new ArrayList<>(openOrdersRaw.size());
+  public static List<Order> adaptOrders(List<HitbtcOrder> openOrdersRaw) {
+    List<Order> openOrders = new ArrayList<>(openOrdersRaw.size());
 
     for (HitbtcOrder hitbtcOrder : openOrdersRaw) {
       openOrders.add(adaptOrder(hitbtcOrder));

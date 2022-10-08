@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
@@ -153,7 +154,7 @@ public class LatokenAdapters {
 
   public static OpenOrders adaptOpenOrders(
       Exchange exchange, List<LatokenOrder> latokenOpenOrders) {
-    List<LimitOrder> openOrders =
+    List<Order> openOrders =
         latokenOpenOrders.stream()
             .map(latokenOrder -> LatokenAdapters.adaptOrder(exchange, latokenOrder))
             .collect(Collectors.toList());

@@ -6,11 +6,14 @@ import org.knowm.xchange.bleutrade.dto.account.BleutradeBalance;
 import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeCurrency;
 import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeMarket;
 import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeTicker;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.StopOrder;
 
 public class BleutradeAssert {
 
@@ -45,14 +48,45 @@ public class BleutradeAssert {
     assertThat(o1.getId()).isEqualTo(o2.getId());
   }
 
+  public static void assertEquals(Order o1, Order o2) {
+    assertThat(o1.getClass().equals(o2.getClass()));
+    if (o1 instanceof MarketOrder) {
+      assertEquals((MarketOrder) o1, (MarketOrder) o2);
+    } else if (o1 instanceof LimitOrder) {
+      assertEquals((LimitOrder) o1, (LimitOrder) o2);
+    } else if (o1 instanceof StopOrder) {
+      assertEquals((StopOrder) o1, (StopOrder) o2);
+    }
+  }
+
+  public static void assertEquals(MarketOrder o1, MarketOrder o2) {
+    assertThat(o1.getId()).isEqualTo(o2.getId());
+    assertThat(o1.getType()).isEqualTo(o2.getType());
+    assertThat(o1.getCurrencyPair()).isEqualTo(o2.getCurrencyPair());
+    assertThat(o1.getOriginalAmount()).isEqualTo(o2.getOriginalAmount());
+    assertThat(o1.getRemainingAmount()).isEqualTo(o2.getRemainingAmount());
+    assertThat(o1.getTimestamp()).isEqualTo(o2.getTimestamp());
+  }
+
   public static void assertEquals(LimitOrder o1, LimitOrder o2) {
     assertThat(o1.getId()).isEqualTo(o2.getId());
     assertThat(o1.getType()).isEqualTo(o2.getType());
     assertThat(o1.getCurrencyPair()).isEqualTo(o2.getCurrencyPair());
-    assertThat(o1.getLimitPrice()).isEqualTo(o2.getLimitPrice());
     assertThat(o1.getOriginalAmount()).isEqualTo(o2.getOriginalAmount());
     assertThat(o1.getRemainingAmount()).isEqualTo(o2.getRemainingAmount());
     assertThat(o1.getTimestamp()).isEqualTo(o2.getTimestamp());
+    assertThat(o1.getLimitPrice()).isEqualTo(o2.getLimitPrice());
+  }
+
+  public static void assertEquals(StopOrder o1, StopOrder o2) {
+    assertThat(o1.getId()).isEqualTo(o2.getId());
+    assertThat(o1.getType()).isEqualTo(o2.getType());
+    assertThat(o1.getCurrencyPair()).isEqualTo(o2.getCurrencyPair());
+    assertThat(o1.getOriginalAmount()).isEqualTo(o2.getOriginalAmount());
+    assertThat(o1.getRemainingAmount()).isEqualTo(o2.getRemainingAmount());
+    assertThat(o1.getTimestamp()).isEqualTo(o2.getTimestamp());
+    assertThat(o1.getLimitPrice()).isEqualTo(o2.getLimitPrice());
+    assertThat(o1.getStopPrice()).isEqualTo(o2.getStopPrice());
   }
 
   public static void assertEquals(Ticker o1, Ticker o2) {

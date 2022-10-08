@@ -7,6 +7,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitflyer.BitflyerAdapters;
 import org.knowm.xchange.bitflyer.BitflyerUtils;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
@@ -47,7 +48,7 @@ public class BitflyerTradeService extends BitflyerTradeServiceRaw implements Tra
     }
 
     // JPY has about three pairs so we need to combine the results
-    List<LimitOrder> orders = new ArrayList<>();
+    List<Order> orders = new ArrayList<>();
 
     pairs.forEach(
         pair -> {

@@ -44,7 +44,7 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
   private static final String ORDER_STATUS_FILLED = "1";
 
   private static final OpenOrders NO_OPEN_ORDERS =
-      new OpenOrders(Collections.<LimitOrder>emptyList());
+      new OpenOrders(Collections.<Order>emptyList());
 
   /**
    * Constructor

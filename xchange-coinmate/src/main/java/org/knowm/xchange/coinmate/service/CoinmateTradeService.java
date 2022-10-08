@@ -75,7 +75,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
     String currencyPairString = CoinmateUtils.getPair(currencyPair);
     CoinmateOpenOrders coinmateOpenOrders = getCoinmateOpenOrders(currencyPairString);
 
-    List<LimitOrder> orders = CoinmateAdapters.adaptOpenOrders(coinmateOpenOrders);
+    List<Order> orders = CoinmateAdapters.adaptOpenOrders(coinmateOpenOrders);
     List<Order> hiddenOrders = CoinmateAdapters.adaptStopOrders(coinmateOpenOrders);
     return new OpenOrders(orders, hiddenOrders);
   }

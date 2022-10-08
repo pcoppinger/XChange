@@ -79,7 +79,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
         binanceOpenOrders = super.openOrders();
       }
 
-      List<LimitOrder> limitOrders = new ArrayList<>();
+      List<Order> limitOrders = new ArrayList<>();
       List<Order> otherOrders = new ArrayList<>();
       binanceOpenOrders.forEach(
           binanceOrder -> {

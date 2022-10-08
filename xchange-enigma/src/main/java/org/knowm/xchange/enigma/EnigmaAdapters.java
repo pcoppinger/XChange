@@ -120,15 +120,15 @@ public final class EnigmaAdapters {
   public static OrderBook adaptOrderBook(
       EnigmaOrderBook enigmaOrderBook, CurrencyPair currencyPair) {
     List<LimitOrder> asks =
-        createOrders(currencyPair, Order.OrderType.ASK, enigmaOrderBook.getAsks());
+        createLimitOrders(currencyPair, Order.OrderType.ASK, enigmaOrderBook.getAsks());
     List<LimitOrder> bids =
-        createOrders(currencyPair, Order.OrderType.BID, enigmaOrderBook.getBids());
+        createLimitOrders(currencyPair, Order.OrderType.BID, enigmaOrderBook.getBids());
     return new OrderBook(enigmaOrderBook.getTimestamp(), asks, bids);
   }
 
   public static OpenOrders adaptOpenOrders(EnigmaOpenOrders baseResponse) {
     if (baseResponse.isResult()) {
-      List<LimitOrder> asks =
+      List<Order> asks =
           createOrders(CurrencyPair.BTC_UAH, Order.OrderType.ASK, baseResponse.getAsks());
       asks.addAll(createOrders(CurrencyPair.BTC_UAH, Order.OrderType.BID, baseResponse.getBids()));
       return new OpenOrders(asks);
@@ -137,7 +137,19 @@ public final class EnigmaAdapters {
     }
   }
 
-  public static List<LimitOrder> createOrders(
+  public static List<Order> createOrders(
+          CurrencyPair currencyPair, Order.OrderType orderType, List<List<BigDecimal>> orders) {
+
+    List<Order> limitOrders = new ArrayList<>();
+    for (List<BigDecimal> ask : orders) {
+      checkArgument(
+              ask.size() == 2, "Expected a pair (price, amount) but got {0} elements.", ask.size());
+      limitOrders.add(createOrder(currencyPair, ask, orderType));
+    }
+    return limitOrders;
+  }
+
+  public static List<LimitOrder> createLimitOrders(
       CurrencyPair currencyPair, Order.OrderType orderType, List<List<BigDecimal>> orders) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();

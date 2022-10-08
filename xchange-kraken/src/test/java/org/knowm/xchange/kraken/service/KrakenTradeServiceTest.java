@@ -44,13 +44,13 @@ public class KrakenTradeServiceTest extends BaseWiremockTest {
 
     assertThat(openOrders).isNotNull();
     assertThat(openOrders.getOpenOrders()).hasSize(jsonRoot.get("result").get("open").size());
-    LimitOrder firstOrder = openOrders.getOpenOrders().get(0);
+    LimitOrder firstOrder = (LimitOrder) openOrders.getOpenOrders().get(0);
     assertThat(firstOrder).isNotNull();
     assertThat(firstOrder.getOriginalAmount()).isNotNull().isPositive();
     assertThat(firstOrder.getId()).isNotBlank();
     assertThat(firstOrder.getInstrument()).isEqualTo(CurrencyPair.BTC_USD);
 
-    LimitOrder secondOrder = openOrders.getOpenOrders().get(1);
+    LimitOrder secondOrder = (LimitOrder) openOrders.getOpenOrders().get(1);
     assertThat(secondOrder).isNotNull();
     assertThat(secondOrder.getOriginalAmount()).isNotNull().isPositive();
     assertThat(secondOrder.getId()).isNotBlank();
@@ -74,13 +74,13 @@ public class KrakenTradeServiceTest extends BaseWiremockTest {
     OpenOrders openOrders = classUnderTest.getOpenOrders(defaultOpenOrdersParamCurrencyPair);
     assertThat(openOrders).isNotNull();
     assertThat(openOrders.getOpenOrders().size()).isEqualTo(3);
-    LimitOrder firstOrder = openOrders.getOpenOrders().get(0);
+    LimitOrder firstOrder = (LimitOrder) openOrders.getOpenOrders().get(0);
     assertThat(firstOrder).isNotNull();
     assertThat(firstOrder.getOriginalAmount()).isNotNull().isPositive();
     assertThat(firstOrder.getId()).isNotBlank();
     assertThat(firstOrder.getInstrument()).isEqualTo(CurrencyPair.BTC_USD);
 
-    LimitOrder secondOrder = openOrders.getOpenOrders().get(1);
+    LimitOrder secondOrder = (LimitOrder) openOrders.getOpenOrders().get(1);
     assertThat(secondOrder).isNotNull();
     assertThat(secondOrder.getOriginalAmount()).isNotNull().isPositive();
     assertThat(secondOrder.getId()).isNotBlank();

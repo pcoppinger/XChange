@@ -18,6 +18,7 @@ import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeTickerReturn;
 import org.knowm.xchange.bleutrade.dto.trade.BleutradeOpenOrdersReturn;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -86,13 +87,13 @@ public class BleutradeAdaptersTest extends BleutradeDtoTestSupport {
   public void shouldAdaptOpenOrders() throws IOException {
     // given
     final BleutradeOpenOrdersReturn response = parse(BleutradeOpenOrdersReturn.class);
-    final LimitOrder[] expectedOrders = expectedOrders();
+    final Order[] expectedOrders = expectedOrders();
 
     // when
     OpenOrders openOrders = BleutradeAdapters.adaptBleutradeOpenOrders(response.getResult());
 
     // then
-    List<LimitOrder> orderList = openOrders.getOpenOrders();
+    List<Order> orderList = openOrders.getOpenOrders();
     assertThat(orderList).hasSize(2);
 
     for (int i = 0; i < orderList.size(); i++) {
@@ -104,8 +105,8 @@ public class BleutradeAdaptersTest extends BleutradeDtoTestSupport {
   public void shouldAdaptOrderBook() throws IOException {
     // given
     final BleutradeOrderBookReturn response = parse(BleutradeOrderBookReturn.class);
-    final LimitOrder[] expectedBids = expectedBids();
-    final LimitOrder[] expectedAsks = expectedAsks();
+    final Order[] expectedBids = expectedBids();
+    final Order[] expectedAsks = expectedAsks();
 
     // when
     OrderBook orderBook =

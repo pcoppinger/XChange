@@ -138,7 +138,7 @@ public class DeribitAdapters {
 
   public static OpenOrders adaptOpenOrders(
       List<org.knowm.xchange.deribit.v2.dto.trade.Order> orders) {
-    List<LimitOrder> limitOrders = new ArrayList<>();
+    List<Order> limitOrders = new ArrayList<>();
     List<Order> otherOrders = new ArrayList<>();
 
     orders.forEach(

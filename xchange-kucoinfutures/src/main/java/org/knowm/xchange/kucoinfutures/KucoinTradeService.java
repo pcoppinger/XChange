@@ -163,7 +163,7 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
           getKucoinFills(symbol, null, page, TRADE_HISTORIES_TO_FETCH, startTime, endTime);
       userTrades =
           fills.getItems().stream()
-              .map(org.knowm.xchange.kucoinfutures.KucoinAdapters::adaptUserTrade)
+              .map(trade -> KucoinAdapters.adaptUserTrade(exchange, trade))
               .collect(Collectors.toList());
       if (fills.getTotalPage() > fills.getCurrentPage()) {
         nextPageCursor = Integer.toString(fills.getCurrentPage() + 1);
@@ -178,7 +178,7 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
               endTime / 1000);
       userTrades =
           histOrders.getItems().stream()
-              .map(org.knowm.xchange.kucoinfutures.KucoinAdapters::adaptHistOrder)
+              .map(order -> KucoinAdapters.adaptHistOrder(exchange, order))
               .collect(Collectors.toList());
       if (histOrders.getTotalPage() > histOrders.getCurrentPage()) {
         nextPageCursor = Integer.toString(histOrders.getCurrentPage() + 1);
@@ -237,12 +237,8 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
         .filter(o -> params == null || params.accept(o))
         .forEach(
             o -> {
-              if (o instanceof MarketOrder) {
-                openOrders.add((MarketOrder) o);
-              } else if (o instanceof LimitOrder) {
-                openOrders.add((LimitOrder) o);
-              } else if (o instanceof StopOrder) {
-                openOrders.add((StopOrder) o);
+              if (o instanceof MarketOrder || o instanceof LimitOrder || o instanceof StopOrder) {
+                openOrders.add(o);
               } else {
                 hiddenOrders.add(o);
               }

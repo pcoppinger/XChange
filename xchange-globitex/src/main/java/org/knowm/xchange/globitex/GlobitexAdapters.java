@@ -223,7 +223,7 @@ public class GlobitexAdapters {
   }
 
   public static OpenOrders adaptToOpenOrders(GlobitexActiveOrders globitexActiveOrders) {
-    List<LimitOrder> openOrders = new ArrayList<>();
+    List<Order> openOrders = new ArrayList<>();
 
     globitexActiveOrders
         .getOrders()

@@ -202,7 +202,7 @@ public final class BTCMarketsAdapters {
   }
 
   public static OpenOrders adaptOpenOrders(BTCMarketsOrders openOrders) {
-    List<LimitOrder> limitOrders = new ArrayList<>();
+    List<Order> limitOrders = new ArrayList<>();
     for (BTCMarketsOrder btcmarketsOrder : openOrders.getOrders()) {
       limitOrders.add(adaptOrder(btcmarketsOrder));
     }

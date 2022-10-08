@@ -164,7 +164,7 @@ public final class TheRockAdapters {
   }
 
   public static OpenOrders adaptOrders(TheRockOrders theRockOrders) {
-    List<LimitOrder> orders = new ArrayList<>(theRockOrders.getOrders().length);
+    List<Order> orders = new ArrayList<>(theRockOrders.getOrders().length);
 
     for (TheRockOrder theRockOrder : theRockOrders.getOrders()) {
       orders.add(adaptOrder(theRockOrder));

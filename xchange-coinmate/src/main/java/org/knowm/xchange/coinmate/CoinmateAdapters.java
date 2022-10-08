@@ -297,10 +297,10 @@ public class CoinmateAdapters {
     return fundings;
   }
 
-  public static List<LimitOrder> adaptOpenOrders(CoinmateOpenOrders coinmateOpenOrders)
+  public static List<Order> adaptOpenOrders(CoinmateOpenOrders coinmateOpenOrders)
       throws CoinmateException {
 
-    List<LimitOrder> ordersList = new ArrayList<>(coinmateOpenOrders.getData().size());
+    List<Order> ordersList = new ArrayList<>(coinmateOpenOrders.getData().size());
 
     for (CoinmateOpenOrdersEntry entry : coinmateOpenOrders.getData()) {
 

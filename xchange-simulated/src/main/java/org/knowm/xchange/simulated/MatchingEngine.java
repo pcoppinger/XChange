@@ -335,7 +335,7 @@ final class MatchingEngine {
     bookOrder.setFee(bookOrder.getFee().add(trade.getFeeAmount()));
   }
 
-  public synchronized List<LimitOrder> openOrders(String apiKey) {
+  public synchronized List<Order> openOrders(String apiKey) {
     return Stream.concat(asks.stream(), bids.stream())
         .flatMap(v -> v.getOrders().stream())
         .filter(o -> o.getApiKey().equals(apiKey))

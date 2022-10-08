@@ -4,13 +4,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.math.BigDecimal;
 
-public class TradeEvent extends BaseEvent {
+public class OrderMatchEvent extends BaseEvent {
 
   public final Data data;
 
-  public TradeEvent(@JsonProperty("subject") String subject,
-                    @JsonProperty("topic") String topic,
-                    @JsonProperty("data") Data data) {
+  public OrderMatchEvent(@JsonProperty("subject") String subject,
+                         @JsonProperty("topic") String topic,
+                         @JsonProperty("data") Data data) {
 
     super(subject, topic);
     this.data = data;

@@ -42,11 +42,11 @@ public class ExmoTradeServiceRaw extends BaseExmoService {
     return map.get("order_id").toString();
   }
 
-  public List<LimitOrder> openOrders() {
+  public List<Order> openOrders() {
     Map<String, List<Map<String, String>>> map =
         exmo.userOpenOrders(signatureCreator, apiKey, exchange.getNonceFactory());
 
-    List<LimitOrder> openOrders = new ArrayList<>();
+    List<Order> openOrders = new ArrayList<>();
 
     for (String market : map.keySet()) {
 

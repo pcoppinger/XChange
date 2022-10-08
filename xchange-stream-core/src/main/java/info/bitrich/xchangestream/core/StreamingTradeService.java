@@ -3,6 +3,7 @@ package info.bitrich.xchangestream.core;
 import io.reactivex.Observable;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.ExchangeSecurityException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -39,7 +40,18 @@ public interface StreamingTradeService {
     if (instrument instanceof CurrencyPair) {
       return getOrderChanges((CurrencyPair) instrument, args);
     }
+    throw new NotYetImplementedForExchangeException("getStopOrderChanges");
+  }
+
+  default Observable<StopOrder> getStopOrderChanges(CurrencyPair currencyPair, Object... args) {
     throw new NotYetImplementedForExchangeException("getOrderChanges");
+  }
+
+  default Observable<StopOrder> getStopOrderChanges(Instrument instrument, Object... args) {
+    if (instrument instanceof CurrencyPair) {
+      return getStopOrderChanges((CurrencyPair) instrument, args);
+    }
+    throw new NotYetImplementedForExchangeException("getStopOrderChanges");
   }
 
   /**

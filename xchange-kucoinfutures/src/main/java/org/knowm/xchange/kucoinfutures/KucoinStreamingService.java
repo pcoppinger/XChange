@@ -52,8 +52,8 @@ class KucoinStreamingService extends JsonNettyStreamingService {
 
   @Override
   public String getSubscribeMessage(String channelName, Object... args) throws IOException {
-    Boolean privateChannel = (args[0] instanceof Boolean) ? (Boolean) args[0] : Boolean.FALSE;
-    Boolean response = (args[1] instanceof Boolean) ? (Boolean) args[1] : Boolean.FALSE;
+    Boolean privateChannel = (args.length >= 1 && args[0] instanceof Boolean) ? (Boolean) args[0] : Boolean.FALSE;
+    Boolean response = (args.length >= 2 && args[1] instanceof Boolean) ? (Boolean) args[1] : Boolean.FALSE;
     return objectMapper.writeValueAsString(new SubscribeRequest(channelName, privateChannel, response));
   }
 

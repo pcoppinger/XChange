@@ -19,6 +19,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
@@ -195,7 +196,7 @@ public final class ItBitAdapters {
       return noOpenOrders;
     }
 
-    List<LimitOrder> limitOrders = new ArrayList<>(orders.length);
+    List<Order> limitOrders = new ArrayList<>(orders.length);
 
     for (int i = 0; i < orders.length; i++) {
       ItBitOrder itBitOrder = orders[i];

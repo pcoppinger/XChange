@@ -23,6 +23,7 @@ import org.knowm.xchange.bitmex.dto.trade.BitmexPrivateExecution;
 import org.knowm.xchange.bitmex.dto.trade.BitmexSide;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
@@ -173,7 +174,7 @@ public class BitmexAdapters {
 
   public static OpenOrders adaptOpenOrders(Map<String, BitmexOrder> bitmexOrders) {
 
-    List<LimitOrder> limitOrders = new ArrayList<>();
+    List<Order> limitOrders = new ArrayList<>();
     for (Entry<String, BitmexOrder> bitmexOrderEntry : bitmexOrders.entrySet()) {
       BitmexOrder bitmexOrder = bitmexOrderEntry.getValue();
       BitmexOrderDescription orderDescription = bitmexOrder.getOrderDescription();

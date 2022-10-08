@@ -201,8 +201,8 @@ public class DsxAdapters {
         dsxOrder.clientOrderId);
   }
 
-  public static List<LimitOrder> adaptOrders(List<DsxOrder> openOrdersRaw) {
-    List<LimitOrder> openOrders = new ArrayList<>(openOrdersRaw.size());
+  public static List<Order> adaptOrders(List<DsxOrder> openOrdersRaw) {
+    List<Order> openOrders = new ArrayList<>(openOrdersRaw.size());
 
     for (DsxOrder dsxOrder : openOrdersRaw) {
       openOrders.add(adaptOrder(dsxOrder));

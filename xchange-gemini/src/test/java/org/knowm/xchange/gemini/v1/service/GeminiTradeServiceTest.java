@@ -46,13 +46,13 @@ public class GeminiTradeServiceTest extends BaseWiremockTest {
 
     assertThat(openOrders).isNotNull();
     assertThat(openOrders.getOpenOrders()).hasSize(jsonRoot.size());
-    LimitOrder firstOrder = openOrders.getOpenOrders().get(0);
+    LimitOrder firstOrder = (LimitOrder) openOrders.getOpenOrders().get(0);
     assertThat(firstOrder).isNotNull();
     assertThat(firstOrder.getOriginalAmount()).isNotNull().isPositive();
     assertThat(firstOrder.getId()).isNotBlank();
     assertThat(firstOrder.getInstrument()).isEqualTo(CurrencyPair.BTC_USD);
 
-    LimitOrder secondOrder = openOrders.getOpenOrders().get(1);
+    LimitOrder secondOrder = (LimitOrder) openOrders.getOpenOrders().get(1);
     assertThat(secondOrder).isNotNull();
     assertThat(secondOrder.getOriginalAmount()).isNotNull().isPositive();
     assertThat(secondOrder.getId()).isNotBlank();
@@ -75,7 +75,7 @@ public class GeminiTradeServiceTest extends BaseWiremockTest {
     OpenOrders openOrders = classUnderTest.getOpenOrders(defaultOpenOrdersParamCurrencyPair);
     assertThat(openOrders).isNotNull();
     assertThat(openOrders.getOpenOrders().size()).isEqualTo(1);
-    LimitOrder firstOrder = openOrders.getOpenOrders().get(0);
+    LimitOrder firstOrder = (LimitOrder) openOrders.getOpenOrders().get(0);
     assertThat(firstOrder).isNotNull();
     assertThat(firstOrder.getOriginalAmount()).isNotNull().isPositive();
     assertThat(firstOrder.getId()).isNotBlank();

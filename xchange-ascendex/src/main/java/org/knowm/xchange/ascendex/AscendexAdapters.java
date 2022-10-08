@@ -137,7 +137,7 @@ public class AscendexAdapters {
 
   public static OpenOrders adaptOpenOrders(
       List<AscendexOpenOrdersResponse> ascendexOpenOrdersRespons) {
-    List<LimitOrder> openOrders = new ArrayList<>(ascendexOpenOrdersRespons.size());
+    List<Order> openOrders = new ArrayList<>(ascendexOpenOrdersRespons.size());
 
     ascendexOpenOrdersRespons.forEach(AscendexAdapters::adaptOpenOrderById);
 

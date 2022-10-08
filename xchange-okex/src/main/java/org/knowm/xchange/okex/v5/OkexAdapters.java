@@ -94,7 +94,7 @@ public class OkexAdapters {
   }
 
   public static OpenOrders adaptOpenOrders(List<OkexOrderDetails> orders) {
-    List<LimitOrder> openOrders =
+    List<Order> openOrders =
         orders.stream()
             .map(
                 order ->

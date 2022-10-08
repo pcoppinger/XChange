@@ -65,13 +65,13 @@ public class KucoinTradeRawDemo {
     OpenOrders openOrders = tradeService.getOpenOrders(orderParams);
     System.out.println(openOrders);
 
-    Optional<LimitOrder> found =
+    Optional<Order> found =
         openOrders.getOpenOrders().stream().filter(o -> o.getId().equals(uuid)).findFirst();
     if (!found.isPresent()) {
       throw new AssertionError("Order not found on book");
     }
-    if (found.get().getLimitPrice().compareTo(PRICE) != 0) {
-      throw new AssertionError("Limit price mismatch: " + found.get().getLimitPrice());
+    if (((LimitOrder) found.get()).getLimitPrice().compareTo(PRICE) != 0) {
+      throw new AssertionError("Limit price mismatch: " + ((LimitOrder) found.get()).getLimitPrice());
     }
     if (found.get().getOriginalAmount().compareTo(AMOUNT) != 0) {
       throw new AssertionError("Amount mismatch: " + found.get().getOriginalAmount());
@@ -105,7 +105,7 @@ public class KucoinTradeRawDemo {
     openOrders = tradeService.getOpenOrders(orderParams);
     System.out.println(tradeService.getOpenOrders(orderParams));
 
-    if (openOrders.getOpenOrders().stream().map(LimitOrder::getId).anyMatch(uuid::equals)) {
+    if (openOrders.getOpenOrders().stream().map(Order::getId).anyMatch(uuid::equals)) {
       throw new AssertionError("Order should have been found on book");
     }
   }

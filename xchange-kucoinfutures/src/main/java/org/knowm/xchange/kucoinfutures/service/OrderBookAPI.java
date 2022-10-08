@@ -34,7 +34,7 @@ public interface OrderBookAPI {
    * @return The aggregated part order book.
    */
   @GET
-  @Path("v1/market/orderbook/level2_20")
+  @Path("v1/level2/depth20")
   KucoinResponse<OrderBookResponse> getPartOrderBookShallowAggregated(
       @QueryParam("symbol") String symbol) throws IOException;
 
@@ -50,7 +50,7 @@ public interface OrderBookAPI {
    * @return The aggregated part order book.
    */
   @GET
-  @Path("v1/market/orderbook/level2_100")
+  @Path("v1/level2/depth100")
   KucoinResponse<OrderBookResponse> getPartOrderBookAggregated(@QueryParam("symbol") String symbol)
       throws IOException;
 
@@ -66,7 +66,7 @@ public interface OrderBookAPI {
    * @return The aggregated full order book.
    */
   @GET
-  @Path("v3/market/orderbook/level2")
+  @Path("v1/level2/snapshot")
   KucoinResponse<OrderBookResponse> getFullOrderBookAggregated(
       @QueryParam("symbol") String symbol,
       @HeaderParam(API_HEADER_KEY) String apiKey,

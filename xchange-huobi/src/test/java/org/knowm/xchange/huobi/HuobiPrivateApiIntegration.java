@@ -44,7 +44,7 @@ public class HuobiPrivateApiIntegration {
   @After
   public void teardown() throws IOException {
     if (exchange != null) {
-      for (LimitOrder order : exchange.getTradeService().getOpenOrders().getOpenOrders()) {
+      for (Order order : exchange.getTradeService().getOpenOrders().getOpenOrders()) {
         exchange.getTradeService().cancelOrder(order.getId());
       }
     }

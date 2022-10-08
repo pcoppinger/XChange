@@ -20,6 +20,7 @@ import org.knowm.xchange.btctrade.dto.trade.BTCTradeOrder;
 import org.knowm.xchange.btctrade.dto.trade.BTCTradePlaceOrderResult;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
@@ -212,7 +213,7 @@ public final class BTCTradeAdapters {
 
   public static OpenOrders adaptOpenOrders(BTCTradeOrder[] btcTradeOrders) {
 
-    List<LimitOrder> openOrders = new ArrayList<>(btcTradeOrders.length);
+    List<Order> openOrders = new ArrayList<>(btcTradeOrders.length);
     for (BTCTradeOrder order : btcTradeOrders) {
       LimitOrder limitOrder = adaptLimitOrder(order);
       if (limitOrder != null) {

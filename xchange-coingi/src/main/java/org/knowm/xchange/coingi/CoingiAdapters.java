@@ -137,7 +137,7 @@ public final class CoingiAdapters {
   }
 
   public static OpenOrders adaptOpenOrders(CoingiOrdersList orders) {
-    List<LimitOrder> list = new ArrayList<>();
+    List<Order> list = new ArrayList<>();
     for (CoingiOrder order : orders) {
       LimitOrder limitOrder =
           new LimitOrder(

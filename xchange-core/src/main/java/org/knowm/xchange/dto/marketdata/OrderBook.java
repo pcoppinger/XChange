@@ -8,14 +8,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.instrument.Instrument;
 
 /** DTO representing the exchange order book */
-public final class OrderBook implements Serializable {
+public class OrderBook implements Serializable {
 
   private static final long serialVersionUID = -7788306758114464314L;
 
@@ -100,15 +101,20 @@ public final class OrderBook implements Serializable {
     }
   }
 
+  protected OrderBook() {
+    this.asks = new ArrayList<>();
+    this.bids = new ArrayList<>();
+  }
+
   // Returns a copy of limitOrder with tradeableAmount replaced.
   private static LimitOrder withAmount(LimitOrder limitOrder, BigDecimal tradeableAmount) {
 
     OrderType type = limitOrder.getType();
-    CurrencyPair currencyPair = limitOrder.getCurrencyPair();
+    Instrument instrument = limitOrder.getInstrument();
     String id = limitOrder.getId();
     Date date = limitOrder.getTimestamp();
     BigDecimal limit = limitOrder.getLimitPrice();
-    return new LimitOrder(type, tradeableAmount, currencyPair, id, date, limit);
+    return new LimitOrder(type, tradeableAmount, instrument, id, date, limit);
   }
 
   public Date getTimeStamp() {
@@ -187,7 +193,7 @@ public final class OrderBook implements Serializable {
 
   // Replace timeStamp if the provided date is non-null and in the future
   // TODO should this raise an exception if the order timestamp is in the past?
-  private void updateDate(Date updateDate) {
+  protected void updateDate(Date updateDate) {
 
     if (updateDate != null && (timeStamp == null || updateDate.after(timeStamp))) {
       this.timeStamp = updateDate;
@@ -218,9 +224,7 @@ public final class OrderBook implements Serializable {
       return false;
     }
     final OrderBook other = (OrderBook) obj;
-    if (this.timeStamp == null
-        ? other.timeStamp != null
-        : !this.timeStamp.equals(other.timeStamp)) {
+    if (!Objects.equals(this.timeStamp, other.timeStamp)) {
       return false;
     }
     if (this.bids.size() != other.bids.size()) {
@@ -248,8 +252,8 @@ public final class OrderBook implements Serializable {
    * OrderBooks are equal but their timestamps are unequal. It returns false if any order between
    * the two are different.
    *
-   * @param ob
-   * @return
+   * @param ob the order book
+   * @return true if equal, otherwise false
    */
   public boolean ordersEqual(OrderBook ob) {
 

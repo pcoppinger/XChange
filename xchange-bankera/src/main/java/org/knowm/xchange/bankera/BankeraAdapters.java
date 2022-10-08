@@ -151,9 +151,9 @@ public final class BankeraAdapters {
     return limitOrders;
   }
 
-  public static List<LimitOrder> adaptOpenOrders(BankeraOpenOrders openOrders) {
+  public static List<Order> adaptOpenOrders(BankeraOpenOrders openOrders) {
 
-    List<LimitOrder> orderList = new ArrayList<>();
+    List<Order> orderList = new ArrayList<>();
 
     openOrders
         .getOpenOrders()
@@ -170,7 +170,7 @@ public final class BankeraAdapters {
                       new BigDecimal(bankeraOrder.getRemainingAmount()),
                       pair,
                       String.valueOf(bankeraOrder.getId()),
-                      new Date(Long.valueOf(bankeraOrder.getCreatedAt())),
+                      new Date(Long.parseLong(bankeraOrder.getCreatedAt())),
                       new BigDecimal(bankeraOrder.getPrice())));
             });
 

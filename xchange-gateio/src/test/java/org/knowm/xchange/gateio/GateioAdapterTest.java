@@ -15,6 +15,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -61,10 +62,10 @@ public class GateioAdapterTest {
 
     OpenOrders adaptedOpenOrders = GateioAdapters.adaptOpenOrders(openOrders, currencyPairs);
 
-    List<LimitOrder> adaptedOrderList = adaptedOpenOrders.getOpenOrders();
+    List<Order> adaptedOrderList = adaptedOpenOrders.getOpenOrders();
     assertThat(adaptedOrderList).hasSize(2);
 
-    LimitOrder adaptedOrder = adaptedOrderList.get(0);
+    LimitOrder adaptedOrder = (LimitOrder) adaptedOrderList.get(0);
     assertThat(adaptedOrder.getType()).isEqualTo(OrderType.ASK);
     assertThat(adaptedOrder.getOriginalAmount()).isEqualTo(new BigDecimal("100000"));
     assertThat(adaptedOrder.getCurrencyPair()).isEqualTo(CurrencyPair.ETH_BTC);

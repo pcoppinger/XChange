@@ -39,7 +39,7 @@ public class Bl3pAdapters {
 
   public static OpenOrders adaptOpenOrders(
       CurrencyPair currencyPair, Bl3pOpenOrders.Bl3pOpenOrder[] bl3pOrders) {
-    List<LimitOrder> result = new ArrayList<>(bl3pOrders.length);
+    List<Order> result = new ArrayList<>(bl3pOrders.length);
 
     for (Bl3pOpenOrders.Bl3pOpenOrder bl3pOrder : bl3pOrders) {
       Order.OrderType orderType = Bl3pUtils.fromBl3pOrderType(bl3pOrder.getStatus());

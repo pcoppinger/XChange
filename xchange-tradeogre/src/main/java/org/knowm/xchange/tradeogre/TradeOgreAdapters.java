@@ -89,7 +89,7 @@ public class TradeOgreAdapters {
   }
 
   public static OpenOrders adaptOpenOrders(Collection<TradeOgreOrder> tradeOgreOrders) {
-    List<LimitOrder> orders =
+    List<Order> orders =
         tradeOgreOrders.stream()
             .map(
                 tradeOgreOrder ->

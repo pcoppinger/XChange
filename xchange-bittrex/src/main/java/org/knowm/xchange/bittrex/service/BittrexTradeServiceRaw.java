@@ -20,6 +20,7 @@ import org.knowm.xchange.bittrex.dto.trade.BittrexOrder;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOrders;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
@@ -148,6 +149,6 @@ public class BittrexTradeServiceRaw extends BittrexBaseService {
   @Getter
   public static class SequencedOpenOrders {
     private final String sequence;
-    private final List<LimitOrder> openOrders;
+    private final List<Order> openOrders;
   }
 }

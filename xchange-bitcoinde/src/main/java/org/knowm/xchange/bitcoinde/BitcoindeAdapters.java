@@ -175,7 +175,7 @@ public final class BitcoindeAdapters {
 
     List<BitcoindeMyOrder> bitcoindeMyOrders = bitcoindeOpenOrdersWrapper.getOrders();
 
-    List<LimitOrder> orders = new ArrayList<>(bitcoindeMyOrders.size());
+    List<Order> orders = new ArrayList<>(bitcoindeMyOrders.size());
 
     for (BitcoindeMyOrder bitcoindeMyOrder : bitcoindeMyOrders) {
       CurrencyPair tradingPair =

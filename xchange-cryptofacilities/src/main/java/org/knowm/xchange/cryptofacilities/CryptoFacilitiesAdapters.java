@@ -152,7 +152,7 @@ public class CryptoFacilitiesAdapters {
   }
 
   public static OpenOrders adaptOpenOrders(CryptoFacilitiesOpenOrders orders) {
-    List<LimitOrder> limitOrders = new ArrayList<>();
+    List<Order> limitOrders = new ArrayList<>();
 
     if (orders != null && orders.isSuccess()) {
       for (CryptoFacilitiesOpenOrder ord : orders.getOrders()) {

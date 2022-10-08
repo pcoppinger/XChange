@@ -150,7 +150,7 @@ public class IndependentReserveAdapters {
 
   public static OpenOrders adaptOpenOrders(
       IndependentReserveOpenOrdersResponse independentReserveOrders) {
-    List<LimitOrder> limitOrders = new ArrayList<>();
+    List<Order> limitOrders = new ArrayList<>();
     List<IndependentReserveOpenOrder> independentReserveOrdersList =
         independentReserveOrders.getIndependentReserveOrders();
     for (IndependentReserveOpenOrder order : independentReserveOrdersList) {

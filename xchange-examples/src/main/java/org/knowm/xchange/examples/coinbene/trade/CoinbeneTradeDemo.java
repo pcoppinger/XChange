@@ -5,6 +5,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbene.CoinbeneExchange;
 import org.knowm.xchange.coinbene.service.CoinbeneTradeService;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.examples.coinbene.CoinbeneDemoUtils;
@@ -29,7 +30,7 @@ public class CoinbeneTradeDemo {
 
     // Get open orders
     OpenOrders orders = tradeService.getOpenOrders(new DefaultOpenOrdersParamCurrencyPair(pair));
-    LimitOrder order = orders.getOpenOrders().stream().collect(StreamUtils.singletonCollector());
+    Order order = orders.getOpenOrders().stream().collect(StreamUtils.singletonCollector());
     if (order != null) {
       System.out.println(order);
     }
@@ -41,7 +42,7 @@ public class CoinbeneTradeDemo {
     CoinbeneTradeService tradeService = (CoinbeneTradeService) exchange.getTradeService();
     // Get open orders
     OpenOrders orders = tradeService.getOpenOrders(pair);
-    LimitOrder order = orders.getOpenOrders().stream().collect(StreamUtils.singletonCollector());
+    Order order = orders.getOpenOrders().stream().collect(StreamUtils.singletonCollector());
     if (order != null) {
       System.out.println(order);
     }

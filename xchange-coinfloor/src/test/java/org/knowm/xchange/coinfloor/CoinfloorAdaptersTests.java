@@ -177,14 +177,14 @@ public class CoinfloorAdaptersTests {
 
     OpenOrders orders = CoinfloorAdapters.adaptOpenOrders(Arrays.asList(transactions));
 
-    LimitOrder order0 = orders.getOpenOrders().get(0);
+    LimitOrder order0 = (LimitOrder) orders.getOpenOrders().get(0);
     assertThat(order0.getId()).isEqualTo("66688608");
     assertThat(order0.getTimestamp().getTime()).isEqualTo(1490009484000L);
     assertThat(order0.getType()).isEqualTo(OrderType.ASK);
     assertThat(order0.getLimitPrice()).isEqualTo("2301.00");
     assertThat(order0.getOriginalAmount()).isEqualTo("0.0001");
 
-    LimitOrder order1 = orders.getOpenOrders().get(1);
+    LimitOrder order1 = (LimitOrder) orders.getOpenOrders().get(1);
     assertThat(order1.getId()).isEqualTo("66688691");
     assertThat(order1.getTimestamp().getTime()).isEqualTo(1491392044000L);
     assertThat(order1.getType()).isEqualTo(OrderType.BID);

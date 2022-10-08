@@ -199,7 +199,7 @@ public class CexIOAdapters {
 
   public static OpenOrders adaptOpenOrders(List<CexIOOrder> cexIOOrderList) {
 
-    List<LimitOrder> limitOrders = new ArrayList<>();
+    List<Order> limitOrders = new ArrayList<>();
 
     for (CexIOOrder cexIOOrder : cexIOOrderList) {
       OrderType orderType =
